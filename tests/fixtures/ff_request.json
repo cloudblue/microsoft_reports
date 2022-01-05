@@ -1,0 +1,325 @@
+[
+  {
+    "id": "PR-1",
+    "type": "purchase",
+    "asset": {
+      "id": "AS-1",
+      "status": "active",
+      "external_id": "0001",
+      "product": {
+        "id": "PRD-814-505-018"
+      },
+      "items": [
+        {
+          "id": "PRD_183_233_565_0171",
+          "global_id": "PRD-814-505-018-0171",
+          "mpn": "CFQ7TTC0LF8R:0008_P1M:None",
+          "old_quantity": "0",
+          "quantity": "25",
+          "type": "Licenses",
+          "display_name": "Office 365 E3 Trial (NCE COM BAS 1MO)",
+          "period": "Monthly"
+        }
+      ],
+      "params": [
+        {
+          "id": "csp_order_id",
+          "name": "csp_order_id",
+          "type": "text",
+          "phase": "fulfillment",
+          "description": "Microsoft Order Id",
+          "value": "MsOrderId1",
+          "value_error": "",
+          "title": "Microsoft Order Id"
+        },
+        {
+          "id": "microsoft_domain",
+          "name": "microsoft_domain",
+          "type": "subdomain",
+          "phase": "ordering",
+          "description": "Please provide a onmicrosoft.com domain, for example mycompanyDomain.onmicrosoft.com",
+          "value": "testdomain.onmicrosoft.com",
+          "value_error": "",
+          "title": "Microsoft Domain Name",
+          "value_choices": [
+            {
+              "value": "onmicrosoft.com",
+              "default": true,
+              "label": "onmicrosoft.com"
+            }
+          ]
+        },
+        {
+          "id": "ms_customer_id",
+          "name": "ms_customer_id",
+          "type": "text",
+          "phase": "fulfillment",
+          "description": "Microsoft Customer Tenant Id",
+          "value": "111-222-333-444",
+          "value_error": "",
+          "title": "MS Customer Id"
+        },
+        {
+          "id": "nce_promo_final",
+          "name": "nce_promo_final",
+          "type": "object",
+          "phase": "fulfillment",
+          "description": "Parameter used to confirm if a promotion is applied to the subscription, indicating the discount.",
+          "value": "",
+          "value_error": "",
+          "title": "NCE Promo"
+        },
+        {
+          "id": "subscription_id",
+          "name": "subscription_id",
+          "type": "text",
+          "phase": "fulfillment",
+          "description": "Microsoft Subscription Id",
+          "value": "999-888-777-666",
+          "value_error": "",
+          "title": "Microsoft Subscription Id"
+        }
+      ],
+      "tiers": {
+        "customer": {
+          "id": "TA-1234-1234-1234"
+        },
+        "tier1": {
+          "id": "TA-1"
+        },
+        "tier2": {
+          "id": "TA-0001-0001-0001"
+        }
+      },
+      "marketplace": {
+        "id": "MP-123",
+        "name": "Test Marketplace"
+      }
+    },
+    "status": "approved",
+    "created": "2021-12-20T09:11:03+00:00",
+    "marketplace": {
+      "id": "MP-123"
+    }
+  },
+  {
+    "id": "PR-2",
+    "type": "change",
+    "note": "",
+    "asset": {
+      "id": "AS-2",
+      "status": "active",
+      "external_id": "0002",
+      "product": {
+        "id": "PRD-814-505-018"
+      },
+      "items": [
+        {
+          "id": "PRD_183_233_565_0159",
+          "global_id": "PRD-814-505-018-0159",
+          "mpn": "CFQ7TTC0LHPG:0001_P1Y:Annual",
+          "old_quantity": "1",
+          "quantity": "3",
+          "type": "Licenses",
+          "display_name": "Microsoft Stream Storage Add-On (500 GB) (NCE COM ADD 1YR ANN)",
+          "period": "Yearly"
+        }
+      ],
+      "params": [
+        {
+          "id": "microsoft_domain",
+          "name": "microsoft_domain",
+          "type": "subdomain",
+          "phase": "ordering",
+          "description": "Please provide a onmicrosoft.com domain, for example mycompanyDomain.onmicrosoft.com",
+          "value": "seconddomain.onmicrosoft.com",
+          "value_error": "",
+          "title": "Microsoft Domain Name"
+        },
+        {
+          "id": "ms_customer_id",
+          "name": "ms_customer_id",
+          "type": "text",
+          "phase": "fulfillment",
+          "description": "Microsoft Customer Tenant Id",
+          "value": "mstentant-customer-id",
+          "value_error": "",
+          "title": "MS Customer Id"
+        },
+        {
+          "id": "nce_promo_final",
+          "name": "nce_promo_final",
+          "type": "object",
+          "phase": "fulfillment",
+          "description": "Parameter used to confirm if a promotion is applied to the subscription, indicating the discount.",
+          "value": "",
+          "value_error": "",
+          "title": "NCE Promo",
+          "structured_value": {
+            "promotions": [
+              {
+                "mpn": "CFQ7TTC0LHPX:0001",
+                "discount_percent": "0.05"
+              }
+            ]
+          }
+        },
+        {
+          "id": "subscription_id",
+          "name": "subscription_id",
+          "type": "text",
+          "phase": "fulfillment",
+          "description": "Microsoft Subscription Id",
+          "value": "all-subscription-ids-123",
+          "value_error": "",
+          "title": "Microsoft Subscription Id"
+        }
+      ],
+      "tiers": {
+        "customer": {
+          "id": "TA-1010-2020-3030"
+        },
+        "tier1": {
+          "id": "TA-1"
+        },
+        "tier2": {
+          "id": "TA-0001-0001-0001"
+        }
+      },
+      "configuration": {
+      },
+      "marketplace": {
+        "id": "MP-123"
+      }
+    },
+    "reason": "",
+    "status": "approved",
+    "created": "2021-12-17T14:11:29+00:00",
+    "updated": "2021-12-17T14:11:58+00:00",
+    "effective_date": "2021-12-17T14:11:58+00:00",
+    "marketplace": {
+      "id": "MP-123"
+    }
+  },
+  {
+    "id": "PR-3",
+    "type": "purchase",
+    "note": "",
+    "asset": {
+      "id": "AS-3",
+      "status": "active",
+      "external_id": "0003",
+      "external_uid": "5c352994-b3e8-496a-ba2e-520905267f71",
+      "product": {
+        "id": "PRD-814-505-018",
+        "icon": "/media/VA-123-13/PRD-814-505-018/media/PRD-814-505-018-logo_GPMrv0r.png",
+        "name": "Product Report Test",
+        "status": "published"
+      },
+      "connection": {
+        "id": "CT-1234-5678",
+        "type": "production",
+        "status": "approved",
+        "provider": {
+          "id": "PA-123-123",
+          "name": "Test Provider"
+        },
+        "vendor": {
+          "id": "VA-123-13",
+          "name": "Test Vendor"
+        },
+        "hub": {
+          "id": "HB-123",
+          "name": "hub.test.zone"
+        },
+        "created_at": "2021-10-22T07:58:39+00:00"
+      },
+      "items": [
+        {
+          "id": "PRD_183_233_565_0159",
+          "global_id": "PRD-814-505-018-0159",
+          "mpn": "CFQ7TTC0LHPG:0001_P1Y:Annual",
+          "old_quantity": "0",
+          "quantity": "1",
+          "type": "Licenses",
+          "display_name": "Microsoft Stream Storage Add-On (500 GB) (NCE COM ADD 1YR ANN)",
+          "period": "Yearly"
+        }
+      ],
+      "params": [
+        {
+          "id": "microsoft_domain",
+          "name": "microsoft_domain",
+          "type": "subdomain",
+          "phase": "ordering",
+          "description": "Please provide a onmicrosoft.com domain, for example mycompanyDomain.onmicrosoft.com",
+          "value": "seconddomain.onmicrosoft.com",
+          "value_error": "",
+          "title": "Microsoft Domain Name"
+        },
+        {
+          "id": "ms_customer_id",
+          "name": "ms_customer_id",
+          "type": "text",
+          "phase": "fulfillment",
+          "description": "Microsoft Customer Tenant Id",
+          "value": "mstentant-customer-id",
+          "value_error": "",
+          "title": "MS Customer Id"
+        },
+        {
+          "id": "nce_promo_final",
+          "name": "nce_promo_final",
+          "type": "object",
+          "phase": "fulfillment",
+          "description": "Parameter used to confirm if a promotion is applied to the subscription, indicating the discount.",
+          "value": "",
+          "value_error": "",
+          "title": "NCE Promo",
+          "structured_value": {
+            "promotions": [
+              {
+                "mpn": "CFQ7TTC0LHPG:0001",
+                "discount_percent": "0.05",
+                "end_date": ""
+              }
+            ]
+          }
+        },
+        {
+          "id": "subscription_id",
+          "name": "subscription_id",
+          "type": "text",
+          "phase": "fulfillment",
+          "description": "Microsoft Subscription Id",
+          "value": "all-subscription-ids-123",
+          "value_error": "",
+          "title": "Microsoft Subscription Id"
+        }
+      ],
+      "tiers": {
+        "customer": {
+          "id": "TA-1010-2020-3030",
+          "external_id": "1000015"
+        },
+        "tier1": {
+          "id": "TA-2"
+        },
+        "tier2": {
+          "id": "TA-0001-0001-0001"
+        }
+      },
+      "configuration": {
+      },
+      "marketplace": {
+        "id": "MP-123"
+      }
+    },
+    "status": "approved",
+    "created": "2021-12-17T13:52:58+00:00",
+    "updated": "2021-12-17T13:59:51+00:00",
+    "marketplace": {
+      "id": "MP-123"
+    }
+  }
+]
