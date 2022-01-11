@@ -1,9 +1,6 @@
-# Welcome to Microsoft Reports !
+# Welcome to Microsoft Reports!
 
-
-Microsoft Reports
-
-
+In this repository you can find multiple reports to use with Microsoft Connector.
 
 ## License
 

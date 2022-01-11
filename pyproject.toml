@@ -1,0 +1,54 @@
+[tool.poetry]
+name = "microsoft_reports"
+version = "0.1.0"
+description = "0.1.0"
+authors = ["0.1.0"]
+license = "Apache Software License 2.0"
+packages = [
+    { include = "reports" }
+]
+readme = "./README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+connect-openapi-client = "^22"
+openpyxl = "^3.0.5"
+
+[tool.poetry.dev-dependencies]
+connect-cli = "^22"
+pytest = "^6.2.1"
+pytest-cov = "^2.10.1"
+pytest-mock = "^3.4"
+responses = "^0.12"
+coverage = {extras = ["toml"], version = "^5.3.1"}
+isort = {extras = ["pyproject"], version = "^5.6.4"}
+flake8 = "^3.8.4"
+flake8-broken-line = "^0"
+flake8-bugbear = "~20"
+flake8-comprehensions = "~3"
+flake8-string-format =  "^0"
+flake8-debugger = "~3"
+flake8-eradicate = "~1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = "tests"
+addopts = "--cov=reports --cov-report=term-missing:skip-covered --cov-report=html --cov-report=xml"
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+omit = ["tests/*", "venv*/*"]
+
+exclude_lines = [
+    "pragma: no cover",
+    "def __str__",
+    "def __repr__",
+    "import",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]

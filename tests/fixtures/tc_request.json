@@ -1,0 +1,50 @@
+[
+  {
+    "id": "TC-111-222-333",
+    "name": "Configuration of TA-1",
+    "account": {
+      "id": "TA-1",
+      "name": "Reseller 1"
+    },
+    "product": {
+      "id": "PRD-814-505-018"
+    },
+    "tier_level": 1,
+    "params": [
+      {
+        "value": "1122334",
+        "title": "Microsoft Partner Number",
+        "description": "Microsoft Partner Number",
+        "type": "text",
+        "scope": "tier1",
+        "phase": "ordering",
+        "id": "tier1_mpn"
+      }
+    ],
+    "status": "active"
+  },
+  {
+    "id": "TC-222-333-444",
+    "name": "Configuration of TA-2",
+    "account": {
+      "id": "TA-2",
+      "name": "Reseller 2"
+    },
+    "product": {
+      "id": "PRD-814-505-018"
+    },
+    "tier_level": 1,
+    "params": [
+      {
+        "value": "2233445",
+        "title": "Microsoft Partner Number",
+        "description": "Microsoft Partner Number",
+        "type": "text",
+        "scope": "tier1",
+        "phase": "ordering",
+        "id": "tier1_mpn"
+      }
+    ],
+    "status": "active"
+  }
+]
