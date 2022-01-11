@@ -40,23 +40,6 @@ pipeline {
                 }
             }
         }
-		stage('push to github'){
-			environment { 
-					GIT_AUTH = credentials('github-cred') 
-				}
-			when {
-				branch 'master'
-				steps{
-				sh('''
-					git remote add origin https://github.com/cloudblue/microsoft_reports
-					git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
-					git checkout master
-					git push origin HEAD:master
-				''')
-				}
-			}
-		
-		}
 		stage('Environment Clean') {
             steps {
                 sh """
