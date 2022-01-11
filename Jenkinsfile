@@ -31,7 +31,7 @@ pipeline {
                         ${scannerHome}/bin/sonar-scanner \
                         -Dsonar.project.tags=connectors \
                         -Dsonar.projectKey=connectors-microsoft-reports \
-                        -Dsonar.sources=microsoft-reports/ \
+                        -Dsonar.sources=reports/ \
 						-Dsonar.tests=tests/ \
                         -Dsonar.python.coverage.reportPaths=coverage.xml \
                         -Dsonar.python.pylint=venv/bin/pylint
