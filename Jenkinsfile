@@ -17,7 +17,7 @@ pipeline {
 		stage('Test Execution') {
 				steps {
 					sh """
-					touch .microsoft_reports_extension_dev
+					touch .microsoft_reports_extension_dev.env
 					docker-compose run microsoft_reports_extension_test
 					"""
 				}
