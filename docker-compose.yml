@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  microsoft_reports_extension_dev:
+    container_name: microsoft_reports_extension_dev
+    image: cloudblueconnect/connect-extension-runner:23.8
+    command: cextrun -d
+    volumes:
+      - .:/extension
+    env_file:
+      - .microsoft_reports_extension_dev.env
+
+  microsoft_reports_extension_bash:
+    container_name: microsoft_reports_extension_bash
+    image: cloudblueconnect/connect-extension-runner:23.8
+    working_dir: /extension
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/extension
+    env_file:
+      - .microsoft_reports_extension_dev.env
+
+  microsoft_reports_extension_test:
+    container_name: microsoft_reports_extension_test
+    image: cloudblueconnect/connect-extension-runner:23.8
+    working_dir: /extension
+    command: /bin/bash -c "poetry install && pytest"
+    volumes:
+      - .:/extension
+    env_file:
+      - .microsoft_reports_extension_dev.env
