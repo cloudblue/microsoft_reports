@@ -42,13 +42,13 @@ addopts = "--cov=reports --cov-report=term-missing:skip-covered --cov-report=htm
 branch = true
 
 [tool.coverage.report]
-omit = [
-]
+omit = ["tests/*", "venv*/*"]
 
 exclude_lines = [
     "pragma: no cover",
     "def __str__",
     "def __repr__",
+    "import",
     "raise NotImplementedError",
     "if __name__ == .__main__.:",
 ]

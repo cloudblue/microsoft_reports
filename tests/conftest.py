@@ -1,3 +1,5 @@
+import json
+import os
 from collections import namedtuple
 from collections.abc import Iterable
 from types import MethodType
@@ -6,11 +8,7 @@ from urllib.parse import parse_qs
 import pytest
 import requests
 import responses
-import os
-import json
-
 from cnct import ConnectClient
-
 
 ConnectResponse = namedtuple(
     'ConnectResponse',
@@ -63,13 +61,13 @@ def extra_context_callback(mocker):
 @pytest.fixture
 def response_factory():
     def _create_response(
-        count=None,
-        query=None,
-        ordering=None,
-        select=None,
-        value=None,
-        status=None,
-        exception=None,
+            count=None,
+            query=None,
+            ordering=None,
+            select=None,
+            value=None,
+            status=None,
+            exception=None,
     ):
         return ConnectResponse(
             count=count,
@@ -80,6 +78,7 @@ def response_factory():
             status=status,
             exception=exception,
         )
+
     return _create_response
 
 
@@ -105,7 +104,8 @@ def client_factory():
             if res.count is not None:
                 end = 0 if res.count == 0 else res.count - 1
                 mock_kwargs['status'] = 200
-                mock_kwargs['headers'] = {'Content-Range': f'items 0-{end}/{res.count}'}
+                mock_kwargs['headers'] = {
+                    'Content-Range': f'items 0-{end}/{res.count}'}
                 mock_kwargs['json'] = []
 
             if isinstance(res.value, Iterable):
@@ -142,17 +142,19 @@ def client_factory():
         client = ConnectClient('Key', use_specs=False)
         client._execute_http_call = MethodType(_execute_http_call, client)
         return client
+
     return _create_client
 
 
 @pytest.fixture
 def ff_request():
     with open(
-        os.path.join(
-            os.getcwd(),
-            'fixtures',
-            'ff_request.json',
-        ),
+            os.path.join(
+                os.getcwd(),
+                'tests',
+                'fixtures',
+                'ff_request.json',
+            ),
     ) as request:
         return json.load(request)
 
@@ -160,10 +162,11 @@ def ff_request():
 @pytest.fixture
 def tc_request():
     with open(
-        os.path.join(
-            os.getcwd(),
-            'fixtures',
-            'tc_request.json',
-        ),
+            os.path.join(
+                os.getcwd(),
+                'tests',
+                'fixtures',
+                'tc_request.json',
+            ),
     ) as request:
         return json.load(request)

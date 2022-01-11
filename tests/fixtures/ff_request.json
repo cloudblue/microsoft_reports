@@ -97,7 +97,7 @@
       }
     },
     "status": "approved",
-    "created": "2021-12-20T09:11:03+00:00",
+    "updated": "2021-12-20T09:11:03+00:00",
     "marketplace": {
       "id": "MP-123"
     }
@@ -117,7 +117,7 @@
         {
           "id": "PRD_183_233_565_0159",
           "global_id": "PRD-814-505-018-0159",
-          "mpn": "CFQ7TTC0LHPG:0001_P1Y:Annual",
+          "mpn": "CFQ7TTC0LHPX:0001_P1M:None",
           "old_quantity": "1",
           "quantity": "3",
           "type": "Licenses",
@@ -159,7 +159,8 @@
             "promotions": [
               {
                 "mpn": "CFQ7TTC0LHPX:0001",
-                "discount_percent": "0.05"
+                "discount_percent": "0.05",
+                "end_date": "2021-12-17T13:52:58+00:00"
               }
             ]
           }
