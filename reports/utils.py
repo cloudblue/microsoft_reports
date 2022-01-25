@@ -34,6 +34,9 @@ def parameter_value(parameter_id, parameter_list, default="-"):
             0]
     except IndexError:
         return default
-    return parameter[
-        'structured_value'] if 'structured_value' in parameter else parameter[
-        'value']
+    if 'structured_value' in parameter:
+        return parameter['structured_value']
+    elif 'value' in parameter:
+        return parameter['value']
+    else:
+        return default

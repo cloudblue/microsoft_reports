@@ -18,7 +18,7 @@ HEADERS = (
 
 # This report is only valid for the NCE Commercial product in development
 # and production environments.
-NCE_COMMERCIAL_PRODUCTS = ['PRD-814-505-018', "PRD-183-233-565"]
+NCE_COMMERCIAL_PRODUCTS = ['PRD-814-505-018', 'PRD-183-233-565']
 
 TIER_CONFIGS = {}
 

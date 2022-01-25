@@ -1,0 +1,25 @@
+[
+  {
+    "id": "TC-333-444-555",
+    "name": "Configuration of TA-DIRECT",
+    "account": {
+      "id": "TA-DIRECT",
+      "name": "Reseller DIRECT"
+    },
+    "product": {
+      "id": "PRD-183-233-565"
+    },
+    "tier_level": 1,
+    "params": [
+      {
+        "title": "Microsoft Partner Number",
+        "description": "Microsoft Partner Number",
+        "type": "text",
+        "scope": "tier1",
+        "phase": "ordering",
+        "id": "tier1_mpn"
+      }
+    ],
+    "status": "active"
+  }
+]
