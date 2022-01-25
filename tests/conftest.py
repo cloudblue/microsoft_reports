@@ -148,11 +148,27 @@ def client_factory():
 
 @pytest.fixture
 def ff_request():
-    with open(os.path.dirname(__file__) + '/fixtures/ff_request.json') as request:
+    with open(
+            os.path.dirname(__file__) + '/fixtures/ff_request.json') as request:
+        return json.load(request)
+
+
+@pytest.fixture
+def ff_request_direct():
+    with open(os.path.dirname(
+            __file__) + '/fixtures/ff_request_direct.json') as request:
         return json.load(request)
 
 
 @pytest.fixture
 def tc_request():
-    with open(os.path.dirname(__file__) + '/fixtures/tc_request.json') as request:
+    with open(
+            os.path.dirname(__file__) + '/fixtures/tc_request.json') as request:
+        return json.load(request)
+
+
+@pytest.fixture
+def tc_request_direct():
+    with open(os.path.dirname(
+            __file__) + '/fixtures/tc_request_direct.json') as request:
         return json.load(request)
