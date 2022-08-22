@@ -1,0 +1,122 @@
+[
+  {
+    "id": "PR-1",
+    "type": "purchase",
+    "asset": {
+      "id": "AS-1",
+      "status": "active",
+      "external_id": "0001",
+      "product": {
+        "id": "PRD-814-505-018"
+      },
+      "items": [
+        {
+          "id": "PRD_183_233_565_0171",
+          "global_id": "PRD-814-505-018-0171",
+          "mpn": "CFQ7TTC0LF8R:0008_P1M:None",
+          "old_quantity": "0",
+          "quantity": "25",
+          "type": "Licenses",
+          "display_name": "Office 365 E3 Trial (NCE COM BAS 1MO)",
+          "period": "Monthly"
+        }
+      ],
+      "params": [
+        {
+          "id": "csp_order_id",
+          "name": "csp_order_id",
+          "type": "text",
+          "phase": "fulfillment",
+          "description": "Microsoft Order Id",
+          "value": "MsOrderId1",
+          "value_error": "",
+          "title": "Microsoft Order Id"
+        },
+        {
+          "id": "microsoft_domain",
+          "name": "microsoft_domain",
+          "type": "subdomain",
+          "phase": "ordering",
+          "description": "Please provide a onmicrosoft.com domain, for example mycompanyDomain.onmicrosoft.com",
+          "value": "testdomain.onmicrosoft.com",
+          "value_error": "",
+          "title": "Microsoft Domain Name",
+          "value_choices": [
+            {
+              "value": "onmicrosoft.com",
+              "default": true,
+              "label": "onmicrosoft.com"
+            }
+          ]
+        },
+        {
+          "id": "ms_customer_id",
+          "name": "ms_customer_id",
+          "type": "text",
+          "phase": "fulfillment",
+          "description": "Microsoft Customer Tenant Id",
+          "value": "111-222-333-444",
+          "value_error": "",
+          "title": "MS Customer Id"
+        },
+        {
+          "id": "nce_promo_final",
+          "name": "nce_promo_final",
+          "type": "object",
+          "phase": "fulfillment",
+          "description": "Parameter used to confirm if a promotion is applied to the subscription, indicating the discount.",
+          "value": "",
+          "value_error": "",
+          "title": "NCE Promo"
+        },
+        {
+          "id": "migration_type",
+          "name": "migration_type",
+          "type": "text",
+          "phase": "ordering",
+          "description": "Agreed value with Vendor, where migration type is indicated and will be used to obtain reports.",
+          "value": "CSPNCEMIGRATION",
+          "value_error": "",
+          "title": "Migration Type",
+          "constraints": {
+            "placeholder": "CSPNCEMIGRATION",
+            "hint": "Agreed value with Vendor, where migration type is indicated and will be used to obtain reports.",
+            "meta": {},
+            "required": false
+          }
+        },
+        {
+          "id": "subscription_id",
+          "name": "subscription_id",
+          "type": "text",
+          "phase": "fulfillment",
+          "description": "Microsoft Subscription Id",
+          "value": "999-888-777-666",
+          "value_error": "",
+          "title": "Microsoft Subscription Id"
+        }
+      ],
+      "tiers": {
+        "customer": {
+          "id": "TA-1234-1234-1234"
+        },
+        "tier1": {
+          "id": "TA-1"
+        },
+        "tier2": {
+          "id": "TA-0001-0001-0001"
+        }
+      },
+      "marketplace": {
+        "id": "MP-123",
+        "name": "Test Marketplace"
+      }
+    },
+    "status": "approved",
+    "updated": "2021-12-20T09:11:03+00:00",
+    "effective_date": "2022-08-18T09:34:37+00:00",
+    "marketplace": {
+      "id": "MP-123"
+    }
+  }
+]
