@@ -17,6 +17,10 @@ HEADERS = [
     'Number of Licenses',
     'Subscription ID',
     'Provider Name',
+    'Connect Subscription ID',
+    'Connect Subscription Status',
+    'Marketplace ID',
+    'Transaction Type'
 ]
 
 # This report is only valid for the NCE Commercial product in development and production environments.
@@ -96,6 +100,10 @@ def _process_line(request):
     num_licenses = item['quantity']
     subscription_id = parameter_value('subscription_id', params)
     provider_name = get_value(request, ['asset', 'connection', 'provider', 'name'])
+    asset_id = get_value(request, ['asset', 'id'])
+    asset_status = get_value(request, ['asset', 'status'])
+    marketplace_id = get_value(request, ['marketplace', 'id'])
+    transaction_type = get_value(request, ['asset', 'connection', 'type'])
 
     row = (
         migration_date,
@@ -108,5 +116,9 @@ def _process_line(request):
         num_licenses,
         subscription_id,
         provider_name,
+        asset_id,
+        asset_status,
+        marketplace_id,
+        transaction_type
     )
     return row
