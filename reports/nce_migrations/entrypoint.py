@@ -81,7 +81,7 @@ def _get_request_list(client, parameters):
     query &= R().updated.ge(parameters['date']['after'])
     query &= R().updated.le(parameters['date']['before'])
 
-    return client.requests.filter(query).order_by("created")
+    return client.requests.filter(query).order_by("-created")
 
 
 def _process_line(request):

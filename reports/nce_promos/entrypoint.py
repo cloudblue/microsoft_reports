@@ -56,8 +56,8 @@ def generate(
                 }
             else:
                 yield _process_line(client, request, item, promotion)
-            progress += 1
-            progress_callback(progress, total)
+        progress += 1
+        progress_callback(progress, total)
 
 
 def _get_request_list(client, parameters):
@@ -77,7 +77,7 @@ def _get_request_list(client, parameters):
     else:
         query &= R().asset.connection.type.oneof(['test', 'production'])
 
-    return client.requests.filter(query).order_by("created")
+    return client.requests.filter(query).order_by("-created")
 
 
 def _get_tier1_mpn(client, product_id, account_id):
