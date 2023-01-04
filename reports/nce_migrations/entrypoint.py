@@ -41,25 +41,21 @@ def generate(
     total = requests.count()
     if renderer_type == 'csv':
         yield HEADERS
-        progress += 1
-        total += 1
-        progress_callback(progress, total)
 
     for request in requests:
         # Filtering the parameter value directly as the client query returns timeout error
         params = get_value(request, ['asset', 'params'])
         migration_type = parameter_value('migration_type', params, None)
-        if not migration_type:
-            continue
+        if migration_type:
+            if renderer_type == 'json':
+                yield {
+                    HEADERS[idx].replace(' ', '_').lower(): value
+                    for idx, value in
+                    enumerate(_process_line(request))
+                }
+            else:
+                yield _process_line(request)
 
-        if renderer_type == 'json':
-            yield {
-                HEADERS[idx].replace(' ', '_').lower(): value
-                for idx, value in
-                enumerate(_process_line(request))
-            }
-        else:
-            yield _process_line(request)
         progress += 1
         progress_callback(progress, total)
 
@@ -72,8 +68,6 @@ def _get_request_list(client, parameters):
 
     if parameters.get('connection_type') and parameters['connection_type']['all'] is False:
         query &= R().asset.connection.type.oneof(parameters['connection_type']['choices'])
-    else:
-        query &= R().asset.connection.type.oneof(['test', 'production'])
 
     if parameters.get('marketplaces') and parameters['marketplaces']['all'] is False:
         query &= R().marketplace.id.oneof(parameters['marketplaces']['choices'])
@@ -81,7 +75,13 @@ def _get_request_list(client, parameters):
     query &= R().updated.ge(parameters['date']['after'])
     query &= R().updated.le(parameters['date']['before'])
 
-    return client.requests.filter(query).order_by("-created")
+    return client.requests.filter(query).select(
+        '-asset.configuration',
+        '-asset.marketplace',
+        '-asset.contract',
+        '-activation_key',
+        '-template'
+    )
 
 
 def _process_line(request):
