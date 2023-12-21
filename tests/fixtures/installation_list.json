@@ -1,0 +1,73 @@
+[
+  {
+    "id": "EIN-9902-0229-4937",
+    "environment": {
+      "id": "ENV-7117-4970-02",
+      "type": "test",
+      "icon": "email",
+      "extension": {
+        "id": "SRVC-7117-4970",
+        "name": "Microsoft Management Settings",
+        "owner": {
+          "id": "VA-610-138",
+          "name": "IMC Gamma Team Vendor",
+          "role": "vendor"
+        },
+        "icon": "https://api.conn.rocks/files/media/public/eaas_icons/SRVC-7117-4970/f859dbba153f79f0611c.png",
+        "extension_id": "EXT-893-512"
+      },
+      "ui_modules": {
+        "modules": {
+          "url": "/static/index.html",
+          "label": "Email Log"
+        },
+        "settings": {
+          "url": "/static/settings.html",
+          "label": "Settings"
+        }
+      },
+      "hostname": "srvc-7117-4970-test",
+      "domain": "ext.conn.rocks",
+      "git": {
+        "url": "https://github.com/IM-Cloud-Spain-Connectors/microsoft-extension-management-service",
+        "tag": "3.1.2",
+        "commit": "883867511bb39a14e338cd4714f72f68aaf5fc60",
+        "auth": {
+          "username": "roman-dev"
+        }
+      },
+      "runtime": "local"
+    },
+    "owner": {
+      "id": "PA-800-926",
+      "name": "IMC Gamma Team Provider",
+      "role": "distributor"
+    },
+    "settings": {
+      "gdap_roles": {
+        "User Administrator": "fe930be7-5e62-47db-91af-98c3a49a38b1",
+        "Application Developer": "cf1c38e5-3621-4004-a7cb-879624dced7c",
+        "Billing Administrator": "b0f54661-2d74-4c50-afa3-1ec803f12efe",
+        "Application Administrator": "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3",
+        "Attack Simulation Administrator": "c430b396-e693-46cc-96f3-db01bf8bb62a"
+      }
+    },
+    "events": {
+      "installed": {
+        "at": "2023-10-10T17:05:55+00:00",
+        "by": {
+          "id": "UR-798-889-769",
+          "name": "RomanHudz"
+        }
+      },
+      "updated": {
+        "at": "2023-12-19T22:48:26+00:00",
+        "by": {
+          "id": "UR-418-067-534",
+          "name": "Ruben Sebrango Briz"
+        }
+      }
+    },
+    "status": "installed"
+  }
+]

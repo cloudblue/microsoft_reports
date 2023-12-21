@@ -1,0 +1,127 @@
+[
+  {
+    "id": "2b601696-7523-4e1d-cfdd-da6b9bac90eb",
+    "offerId": "CFQ7TTC0LH0T:0001:CFQ7TTC0K186",
+    "offerName": "Microsoft Teams Phone Standard",
+    "friendlyName": "Microsoft Teams Phone Standard",
+    "productType": {
+      "id": "OnlineServicesNCE",
+      "displayName": "OnlineServicesNCE"
+    },
+    "quantity": 1,
+    "unitType": "Licenses",
+    "hasPurchasableAddons": false,
+    "creationDate": "2022-02-01T11:55:40.077749Z",
+    "effectiveStartDate": "2022-02-01T11:55:39.6892538Z",
+    "commitmentEndDateTime": "2023-01-31T00:00:00Z",
+    "commitmentEndDate": "2023-01-31T00:00:00Z",
+    "cancellationAllowedUntilDate": "2022-02-04T11:56:58.9055909Z",
+    "billingCycleEndDate": "2022-02-28T00:00:00Z",
+    "status": "deleted",
+    "autoRenewEnabled": true,
+    "isTrial": false,
+    "billingType": "license",
+    "billingCycle": "monthly",
+    "termDuration": "P1Y",
+    "renewalTermDuration": "",
+    "refundOptions": [
+      {
+        "type": "Full",
+        "expiresAt": "2022-02-02T11:56:58.9055909Z"
+      }
+    ],
+    "isMicrosoftProduct": true,
+    "partnerId": "5462014",
+    "additionalPartnerIds": [],
+    "attentionNeeded": false,
+    "actionTaken": false,
+    "contractType": "subscription",
+    "links": {
+      "product": {
+        "uri": "/products/CFQ7TTC0LH0T?country=US",
+        "method": "GET",
+        "headers": []
+      },
+      "sku": {
+        "uri": "/products/CFQ7TTC0LH0T/skus/0001?country=US",
+        "method": "GET",
+        "headers": []
+      },
+      "availability": {
+        "uri": "/products/CFQ7TTC0LH0T/skus/0001/availabilities/CFQ7TTC0K186?country=US",
+        "method": "GET",
+        "headers": []
+      },
+      "self": {
+        "uri": "/customers/1b86491d-b575-4353-94ad-2564946f7924/subscriptions/6f70ab84-d8fb-47dd-dfd1-98d6e4564109",
+        "method": "GET",
+        "headers": []
+      }
+    },
+    "publisherName": "Microsoft Corporation",
+    "promotionId": "39NFJQT1PGVJ:003D:39NFJQT1Q5RX",
+    "orderId": "ff7778e3647f",
+    "attributes": {
+      "objectType": "Subscription"
+    }
+  },
+  {
+    "id": "7b91dff0-9a39-4d91-c7da-8e2a9f099ebb",
+    "offerId": "CFQ7TTC0LF8R:0008:CFQ7TTC0L5ZQ",
+    "offerName": "Microsoft 365 E3",
+    "friendlyName": "Microsoft 365 E3",
+    "productType": {
+      "id": "OnlineServicesNCE",
+      "displayName": "OnlineServicesNCE"
+    },
+    "quantity": 1,
+    "unitType": "Licenses",
+    "hasPurchasableAddons": false,
+    "creationDate": "2022-01-26T15:20:05.5031163Z",
+    "effectiveStartDate": "2022-01-26T15:20:05.5003578Z",
+    "commitmentEndDateTime": "2023-01-31T00:00:00Z",
+    "commitmentEndDate": "2023-01-17T00:00:00Z",
+    "cancellationAllowedUntilDate": "2022-01-21T09:55:22.0196732Z",
+    "billingCycleEndDate": "2022-02-17T00:00:00Z",
+    "status": "active",
+    "autoRenewEnabled": true,
+    "isTrial": false,
+    "billingType": "license",
+    "billingCycle": "monthly",
+    "termDuration": "P1M",
+    "renewalTermDuration": "",
+    "isMicrosoftProduct": true,
+    "partnerId": "5462014",
+    "additionalPartnerIds": [],
+    "attentionNeeded": false,
+    "actionTaken": false,
+    "contractType": "subscription",
+    "links": {
+      "product": {
+        "uri": "/products/CFQ7TTC0LFLX?country=US",
+        "method": "GET",
+        "headers": []
+      },
+      "sku": {
+        "uri": "/products/CFQ7TTC0LFLX/skus/0001?country=US",
+        "method": "GET",
+        "headers": []
+      },
+      "availability": {
+        "uri": "/products/CFQ7TTC0LFLX/skus/0001/availabilities/CFQ7TTC0L5ZQ?country=US",
+        "method": "GET",
+        "headers": []
+      },
+      "self": {
+        "uri": "/customers/1b86491d-b575-4353-94ad-2564946f7924/subscriptions/b054613d-c3e6-4f25-cbce-1cb40a5cfd93",
+        "method": "GET",
+        "headers": []
+      }
+    },
+    "publisherName": "Microsoft Corporation",
+    "orderId": "6eaf8e1b1835",
+    "attributes": {
+      "objectType": "Subscription"
+    }
+  }
+]

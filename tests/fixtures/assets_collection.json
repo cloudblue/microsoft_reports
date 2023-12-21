@@ -1,0 +1,1210 @@
+[
+  {
+    "id": "AS-1564-9639-4055",
+    "status": "active",
+    "events": {
+      "created": {
+        "at": "2021-12-29T07:55:04+00:00"
+      },
+      "updated": {
+        "at": "2021-12-29T07:59:03+00:00"
+      }
+    },
+    "external_id": "FRO93ADTFA",
+    "external_uid": "8bc7d5a3-b0ee-440e-8a93-fcbe3b57bc73",
+    "product": {
+      "id": "PRD-183-233-565",
+      "name": "NCE Microsoft 365 Commercial",
+      "status": "published",
+      "icon": "/media/VA-610-138/PRD-183-233-565/media/PRD-183-233-565-logo_GPMrv0r.png"
+    },
+    "connection": {
+      "id": "CT-0000-0000-0000",
+      "hub": {
+        "id": "HB-0000-0000",
+        "name": "ACME Hub"
+      },
+      "provider": {
+        "id": "PA-800-926",
+        "name": "IMC Gamma Team Provider"
+      },
+      "vendor": {
+        "id": "VA-610-138",
+        "name": "IMC Gamma Team Vendor"
+      },
+      "type": "preview"
+    },
+    "items": [
+      {
+        "id": "PRD_183_233_565_0171",
+        "global_id": "PRD-183-233-565-0171",
+        "display_name": "Office 365 E3 Trial (NCE COM BAS 1MO)",
+        "mpn": "CFQ7TTC0LF8R:0008_P1M:None",
+        "item_type": "reservation",
+        "period": "monthly",
+        "quantity": 25.0,
+        "type": "Licenses"
+      }
+    ],
+    "params": [
+      {
+        "id": "tenant_preference",
+        "name": "Please select the desired option for the CSP account",
+        "description": "Please select the desired option for the CSP account",
+        "type": "choice",
+        "value": "existing"
+      },
+      {
+        "id": "specialQualification",
+        "name": "specialQualification",
+        "description": "Please chose the customer's eligible special qualifications type.",
+        "type": "dropdown",
+        "value": ""
+      },
+      {
+        "id": "partner_on_record_attestation_accepted",
+        "name": "partner_on_record_attestation_accepted",
+        "description": "For new orders it is required to provide partner on record attestation",
+        "type": "checkbox",
+        "value": "",
+        "structured_value": {
+          "attestation_accepted": true
+        }
+      },
+      {
+        "id": "relationship_url",
+        "name": "Confirm customer-partner authorization is done",
+        "description": "To establish reseller relationships with existing customers this is the invitation URL to connect",
+        "type": "dropdown",
+        "value": ""
+      },
+      {
+        "id": "offer_attestation",
+        "name": "offer_attestation",
+        "description": "Offer attestation",
+        "type": "checkbox",
+        "value": "",
+        "structured_value": {
+          "attestation_accepted": false
+        }
+      },
+      {
+        "id": "mpn_id",
+        "name": "mpn_id",
+        "description": "MPN ID",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "migration_info_object",
+        "name": "migration_info_object",
+        "description": "migration info object",
+        "type": "object",
+        "value": ""
+      },
+      {
+        "id": "customer_email",
+        "name": "customer_email",
+        "description": "Email",
+        "type": "email",
+        "value": ""
+      },
+      {
+        "id": "nce_promo_draft",
+        "name": "nce_promo_draft",
+        "description": "Parameter used store all promotions to be applied to the subscription, indicating the discount.",
+        "type": "object",
+        "value": "",
+        "structured_value": {
+          "signature": "",
+          "promotions": []
+        }
+      },
+      {
+        "id": "microsoft_domain",
+        "name": "microsoft_domain",
+        "description": "Please provide a onmicrosoft.com domain, for example mycompanyDomain.onmicrosoft.com",
+        "type": "subdomain",
+        "value": "devruben281220211230.onmicrosoft.com"
+      },
+      {
+        "id": "mca_acceptance",
+        "name": "MCA Acceptance",
+        "description": "MCA Acceptance",
+        "type": "dropdown",
+        "value": "yes"
+      },
+      {
+        "id": "last_name_agreement",
+        "name": "Customer last name",
+        "description": "Customer last name",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "first_name_agreement",
+        "name": "Customer first name",
+        "description": "Customer first name",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "email_address_agreement",
+        "name": "Email Address",
+        "description": "Email Address",
+        "type": "email",
+        "value": ""
+      },
+      {
+        "id": "migration_info",
+        "name": "migration_info",
+        "description": "Migraton info Data",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "effective_state",
+        "name": "State Or Province Or Region",
+        "description": "Please provide the State / Province / Region",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "effective_postal_code",
+        "name": "ZIP or Postal Code",
+        "description": "Please provide the ZIP or Postal Code",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "effective_phonenumber",
+        "name": "Phone Number",
+        "description": "Phone Number",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "effective_country",
+        "name": "Country",
+        "description": "Please provide your country code (2 letters)",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "effective_city",
+        "name": "City",
+        "description": "Please provide the City of your business",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "effective_address",
+        "name": "Address Line 1",
+        "description": "Please provide your business address line",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "education_auth",
+        "name": "Microsoft Education vetting not passed.If you are education eligible, please contact support.",
+        "description": "https://partner.microsoft.com/en-US/resources/collection/csp-aer-partner-qualification-retirement",
+        "type": "dropdown",
+        "value": ""
+      },
+      {
+        "id": "declarationAddittionalResellers",
+        "name": "declarationAddittionalResellers",
+        "description": "Declaration of additional resellers associated within a transaction.",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "customer_tax_id",
+        "name": "Customer Tax Id",
+        "description": "Customer Tax Id",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "customer_company_name",
+        "name": "customer_company_name",
+        "description": "Customer Company Name",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "agreement_date",
+        "name": "Microsoft Customer Agreement Date",
+        "description": "Please add the date when the Microsoft Customer Agreement was accepted",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "subscription_id",
+        "name": "subscription_id",
+        "description": "Microsoft Subscription Id",
+        "type": "text",
+        "value": "2b601696-7523-4e1d-cfdd-da6b9bac90eb"
+      },
+      {
+        "id": "retry_counter",
+        "name": "retry_counter",
+        "description": "Retry Counter",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "provisioning_stage",
+        "name": "Provisioning Stage",
+        "description": "provisioning Stage determine the stage of the order processing",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "nce_promo_final",
+        "name": "nce_promo_final",
+        "description": "Parameter used to confirm if a promotion is applied to the subscription, indicating the discount.",
+        "type": "object",
+        "value": ""
+      },
+      {
+        "id": "ms_request_id",
+        "name": "Microsoft Request Id Header",
+        "description": "If the MS request fails with a 50X error code, the connector must be send the same MS_Request_Id header in the next execution.",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "ms_customer_id",
+        "name": "MS Customer Id",
+        "description": "Microsoft Customer Tenant Id",
+        "type": "text",
+        "value": "b3f437f5-73e9-4b44-9dea-998edba77411"
+      },
+      {
+        "id": "initial_password",
+        "name": "First time login password",
+        "description": "First time login password",
+        "type": "password",
+        "value": ""
+      },
+      {
+        "id": "csp_order_id",
+        "name": "Microsoft Order Id",
+        "description": "Microsoft Order Id",
+        "type": "text",
+        "value": "b969d3bc9908"
+      },
+      {
+        "id": "are_items_validated",
+        "name": "Are items validated",
+        "description": "Are items validated",
+        "type": "text",
+        "value": "YES"
+      },
+      {
+        "id": "all_subscription_ids",
+        "name": "all_subscription_ids",
+        "description": "All order subscription ids to be used in billing reconciliation",
+        "type": "text",
+        "value": "2b601696-7523-4e1d-cfdd-da6b9bac90eb"
+      }
+    ],
+    "tiers": {
+      "customer": {
+        "id": "TA-6857-4480-5474",
+        "external_id": "49961",
+        "external_uid": "9ec86a32-bca4-4fec-981b-fe98d89abfc3",
+        "name": "Customer Ruben MS",
+        "tax_id": null,
+        "contact_info": {
+          "address_line1": "Po box 777",
+          "address_line2": "",
+          "city": "Fremont",
+          "state": "California",
+          "postal_code": "94537-0055",
+          "country": "US",
+          "contact": {
+            "first_name": "test",
+            "last_name": "test",
+            "email": "janedoe2@catchall.infra.im",
+            "phone_number": {
+              "country_code": "1",
+              "area_code": "201",
+              "phone_number": "5550123"
+            }
+          }
+        }
+      },
+      "tier1": {
+        "id": "TA-9705-4579-9409",
+        "external_id": "20492",
+        "external_uid": "2fdfd459-bd91-457c-a5aa-9b66ad297bc2",
+        "name": "MS Reseller Ruben L2",
+        "tax_id": null,
+        "contact_info": {
+          "address_line1": "Walter Junctions",
+          "address_line2": "Clementina Turnpike",
+          "city": "Jelenia Góra",
+          "state": "Dolnoslaskie",
+          "postal_code": "58-500",
+          "country": "PL",
+          "contact": {
+            "first_name": "Tito",
+            "last_name": "Raynor",
+            "email": "ruben.sebrango+Tito_Raynor@ingrammicro.com",
+            "phone_number": {
+              "country_code": "48",
+              "area_code": "665",
+              "phone_number": "558902"
+            }
+          }
+        }
+      },
+      "tier2": {
+        "id": "TA-4899-8022-4792",
+        "external_id": "2552",
+        "external_uid": "6b928770-bb9d-430a-89ca-d0bd6aa5bfe0",
+        "name": "Marketplace US New",
+        "tax_id": null,
+        "contact_info": {
+          "address_line1": "Howe Stream",
+          "address_line2": "Mayert Islands",
+          "city": "El Encanto",
+          "state": "Amazonas",
+          "postal_code": "913010",
+          "country": "CO",
+          "contact": {
+            "first_name": "Izabella",
+            "last_name": "Swift",
+            "email": "abc@demo.mail",
+            "phone_number": {
+              "country_code": "57",
+              "area_code": "123",
+              "phone_number": "45678"
+            }
+          }
+        }
+      }
+    },
+    "marketplace": {
+      "id": "MP-65669",
+      "name": "IM -  United States",
+      "icon": "/media/PA-800-926/marketplaces/MP-65669/icon.png"
+    },
+    "contract": {
+      "id": "CRD-00000-00000-00000",
+      "name": "ACME Distribution Contract"
+    },
+    "billing": {
+      "period": {
+        "delta": 1.0,
+        "uom": "monthly"
+      },
+      "next_date": "2022-01-29T07:59:02+00:00",
+      "anniversary": {
+        "day": 29
+      }
+    }
+  },
+  {
+    "id": "AS-9528-2780-5303",
+    "status": "active",
+    "events": {
+      "created": {
+        "at": "2021-12-28T11:30:06+00:00"
+      },
+      "updated": {
+        "at": "2021-12-28T11:40:24+00:00"
+      }
+    },
+    "external_id": "DZ1SCKZ0RC",
+    "external_uid": "b11937b9-2cf4-49fe-8e7e-60f841021f26",
+    "product": {
+      "id": "PRD-183-233-565",
+      "name": "NCE Microsoft 365 Commercial",
+      "status": "published",
+      "icon": "/media/VA-610-138/PRD-183-233-565/media/PRD-183-233-565-logo_GPMrv0r.png"
+    },
+    "connection": {
+      "id": "CT-0000-0000-0000",
+      "hub": {
+        "id": "HB-0000-0000",
+        "name": "ACME Hub"
+      },
+      "provider": {
+        "id": "PA-800-926",
+        "name": "IMC Gamma Team Provider"
+      },
+      "vendor": {
+        "id": "VA-610-138",
+        "name": "IMC Gamma Team Vendor"
+      },
+      "type": "preview"
+    },
+    "items": [
+      {
+        "id": "PRD_183_233_565_0012",
+        "global_id": "PRD-183-233-565-0012",
+        "display_name": "Microsoft 365 E3 Annual NCE",
+        "mpn": "CFQ7TTC0LFLX:0001_ANNUAL",
+        "item_type": "reservation",
+        "period": "yearly",
+        "quantity": 3.0,
+        "type": "Licenses"
+      }
+    ],
+    "params": [
+      {
+        "id": "retry_counter",
+        "name": "retry_counter",
+        "description": "Retry Counter",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "provisioning_stage",
+        "name": "Provisioning Stage",
+        "description": "provisioning Stage determine the stage of the order processing",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "partner_on_record_attestation_accepted",
+        "name": "partner_on_record_attestation_accepted",
+        "description": "For new orders it is required to provide partner on record attestation",
+        "type": "checkbox",
+        "value": "",
+        "structured_value": {
+          "attestation_accepted": true
+        }
+      },
+      {
+        "id": "offer_attestation",
+        "name": "offer_attestation",
+        "description": "Offer attestation",
+        "type": "checkbox",
+        "value": "",
+        "structured_value": {
+          "attestation_accepted": false
+        }
+      },
+      {
+        "id": "nce_promo_draft",
+        "name": "nce_promo_draft",
+        "description": "Parameter used store all promotions to be applied to the subscription, indicating the discount.",
+        "type": "object",
+        "value": "",
+        "structured_value": {
+          "signature": "WtqvevCTgMtQOVudjzUihmAxO6S69PNRvJTJkudSUBKNKHVkE0ut9fi++n//nQAZs3CF5bKPkNy0c/FZn0AGOkrBmCAsf+v5N55d5zfVanKT7+S17uOdHo0RAyBn9n2zSNZ3++gmHRtk7oZ+7rPncJ46YhVG4auvTJmpuO7hA6xa0LmytvqGLtvlCHSYPdAFLV4uMGKwv4FJUMaN7mQj2vFZSaEfbKmsmXrG8JHSB3Lchga8pChZAR88P4dI4g21WsWNj7X/UMeIAWF2id62VxaxjpkSeMuzt2OCdiZCKTkUzklapkdqOK7SezoIJYNrVv/twR63kwYHNco1LxIdhg==",
+          "promotions": [
+            {
+              "mpn": "CFQ7TTC0LFLX:0001",
+              "discount_percent": "0.05"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tenant_preference",
+        "name": "Please select the desired option for the CSP account",
+        "description": "Please select the desired option for the CSP account",
+        "type": "choice",
+        "value": "new"
+      },
+      {
+        "id": "specialQualification",
+        "name": "specialQualification",
+        "description": "Please chose the customer's eligible special qualifications type.",
+        "type": "dropdown",
+        "value": ""
+      },
+      {
+        "id": "relationship_url",
+        "name": "Confirm customer-partner authorization is done",
+        "description": "To establish reseller relationships with existing customers this is the invitation URL to connect",
+        "type": "dropdown",
+        "value": ""
+      },
+      {
+        "id": "mpn_id",
+        "name": "mpn_id",
+        "description": "MPN ID",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "migration_info_object",
+        "name": "migration_info_object",
+        "description": "migration info object",
+        "type": "object",
+        "value": ""
+      },
+      {
+        "id": "mca_acceptance",
+        "name": "MCA Acceptance",
+        "description": "MCA Acceptance",
+        "type": "dropdown",
+        "value": "yes"
+      },
+      {
+        "id": "microsoft_domain",
+        "name": "microsoft_domain",
+        "description": "Please provide a onmicrosoft.com domain, for example mycompanyDomain.onmicrosoft.com",
+        "type": "subdomain",
+        "value": "devruben281220211230.onmicrosoft.com"
+      },
+      {
+        "id": "last_name_agreement",
+        "name": "Customer last name",
+        "description": "Customer last name",
+        "type": "text",
+        "value": "test"
+      },
+      {
+        "id": "first_name_agreement",
+        "name": "Customer first name",
+        "description": "Customer first name",
+        "type": "text",
+        "value": "test"
+      },
+      {
+        "id": "effective_city",
+        "name": "City",
+        "description": "Please provide the City of your business",
+        "type": "text",
+        "value": "Fremont"
+      },
+      {
+        "id": "email_address_agreement",
+        "name": "Email Address",
+        "description": "Email Address",
+        "type": "email",
+        "value": "janedoe2@catchall.infra.im"
+      },
+      {
+        "id": "effective_state",
+        "name": "State Or Province Or Region",
+        "description": "Please provide the State / Province / Region",
+        "type": "text",
+        "value": "CA"
+      },
+      {
+        "id": "effective_postal_code",
+        "name": "ZIP or Postal Code",
+        "description": "Please provide the ZIP or Postal Code",
+        "type": "text",
+        "value": "94537-0777"
+      },
+      {
+        "id": "effective_phonenumber",
+        "name": "Phone Number",
+        "description": "Phone Number",
+        "type": "text",
+        "value": "12015550123"
+      },
+      {
+        "id": "effective_country",
+        "name": "Country",
+        "description": "Please provide your country code (2 letters)",
+        "type": "text",
+        "value": "US"
+      },
+      {
+        "id": "effective_address",
+        "name": "Address Line 1",
+        "description": "Please provide your business address line",
+        "type": "text",
+        "value": "Po box 777"
+      },
+      {
+        "id": "education_auth",
+        "name": "Microsoft Education vetting not passed.If you are education eligible, please contact support.",
+        "description": "https://partner.microsoft.com/en-US/resources/collection/csp-aer-partner-qualification-retirement",
+        "type": "dropdown",
+        "value": ""
+      },
+      {
+        "id": "declarationAddittionalResellers",
+        "name": "declarationAddittionalResellers",
+        "description": "Declaration of additional resellers associated within a transaction.",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "customer_tax_id",
+        "name": "Customer Tax Id",
+        "description": "Customer Tax Id",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "customer_email",
+        "name": "customer_email",
+        "description": "Email",
+        "type": "email",
+        "value": ""
+      },
+      {
+        "id": "customer_company_name",
+        "name": "customer_company_name",
+        "description": "Customer Company Name",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "agreement_date",
+        "name": "Microsoft Customer Agreement Date",
+        "description": "Please add the date when the Microsoft Customer Agreement was accepted",
+        "type": "text",
+        "value": "12-28-2021"
+      },
+      {
+        "id": "subscription_id",
+        "name": "subscription_id",
+        "description": "Microsoft Subscription Id",
+        "type": "text",
+        "value": "7b91dff0-9a39-4d91-c7da-8e2a9f099ebb"
+      },
+      {
+        "id": "nce_promo_final",
+        "name": "nce_promo_final",
+        "description": "Parameter used to confirm if a promotion is applied to the subscription, indicating the discount.",
+        "type": "object",
+        "value": "",
+        "structured_value": {
+          "promotions": [
+            {
+              "mpn": "CFQ7TTC0LFLX:0001",
+              "end_date": "2022-06-30T01:07:44+00:00",
+              "promotion_id": "39NFJQT1PGVJ:0045:39NFJQT1Q5MG",
+              "discount_percent": "0.05"
+            }
+          ]
+        }
+      },
+      {
+        "id": "ms_request_id",
+        "name": "Microsoft Request Id Header",
+        "description": "If the MS request fails with a 50X error code, the connector must be send the same MS_Request_Id header in the next execution.",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "ms_customer_id",
+        "name": "MS Customer Id",
+        "description": "Microsoft Customer Tenant Id",
+        "type": "text",
+        "value": "b3f437f5-73e9-4b44-9dea-998edba77411"
+      },
+      {
+        "id": "initial_password",
+        "name": "First time login password",
+        "description": "First time login password",
+        "type": "password",
+        "value": "1DOt1KiF]"
+      },
+      {
+        "id": "csp_order_id",
+        "name": "Microsoft Order Id",
+        "description": "Microsoft Order Id",
+        "type": "text",
+        "value": "7633f1c4b003"
+      },
+      {
+        "id": "are_items_validated",
+        "name": "Are items validated",
+        "description": "Are items validated",
+        "type": "text",
+        "value": "YES"
+      },
+      {
+        "id": "all_subscription_ids",
+        "name": "all_subscription_ids",
+        "description": "All order subscription ids to be used in billing reconciliation",
+        "type": "text",
+        "value": "7b91dff0-9a39-4d91-c7da-8e2a9f099ebb"
+      },
+      {
+        "id": "migration_info",
+        "name": "migration_info",
+        "description": "Migraton info Data",
+        "type": "text",
+        "value": ""
+      }
+    ],
+    "tiers": {
+      "customer": {
+        "id": "TA-6857-4480-5474",
+        "external_id": "49961",
+        "external_uid": "9ec86a32-bca4-4fec-981b-fe98d89abfc3",
+        "name": "Customer Ruben MS",
+        "tax_id": null,
+        "contact_info": {
+          "address_line1": "Po box 777",
+          "address_line2": "",
+          "city": "Fremont",
+          "state": "California",
+          "postal_code": "94537-0055",
+          "country": "US",
+          "contact": {
+            "first_name": "test",
+            "last_name": "test",
+            "email": "janedoe2@catchall.infra.im",
+            "phone_number": {
+              "country_code": "1",
+              "area_code": "201",
+              "phone_number": "5550123"
+            }
+          }
+        }
+      },
+      "tier1": {
+        "id": "TA-9705-4579-9409",
+        "external_id": "20492",
+        "external_uid": "2fdfd459-bd91-457c-a5aa-9b66ad297bc2",
+        "name": "MS Reseller Ruben L2",
+        "tax_id": null,
+        "contact_info": {
+          "address_line1": "Walter Junctions",
+          "address_line2": "Clementina Turnpike",
+          "city": "Jelenia Góra",
+          "state": "Dolnoslaskie",
+          "postal_code": "58-500",
+          "country": "PL",
+          "contact": {
+            "first_name": "Tito",
+            "last_name": "Raynor",
+            "email": "ruben.sebrango+Tito_Raynor@ingrammicro.com",
+            "phone_number": {
+              "country_code": "48",
+              "area_code": "665",
+              "phone_number": "558902"
+            }
+          }
+        }
+      },
+      "tier2": {
+        "id": "TA-4899-8022-4792",
+        "external_id": "2552",
+        "external_uid": "6b928770-bb9d-430a-89ca-d0bd6aa5bfe0",
+        "name": "Marketplace US New",
+        "tax_id": null,
+        "contact_info": {
+          "address_line1": "Howe Stream",
+          "address_line2": "Mayert Islands",
+          "city": "El Encanto",
+          "state": "Amazonas",
+          "postal_code": "913010",
+          "country": "CO",
+          "contact": {
+            "first_name": "Izabella",
+            "last_name": "Swift",
+            "email": "abc@demo.mail",
+            "phone_number": {
+              "country_code": "57",
+              "area_code": "123",
+              "phone_number": "45678"
+            }
+          }
+        }
+      }
+    },
+    "marketplace": {
+      "id": "MP-65669",
+      "name": "IM -  United States",
+      "icon": "/media/PA-800-926/marketplaces/MP-65669/icon.png"
+    },
+    "contract": {
+      "id": "CRD-00000-00000-00000",
+      "name": "ACME Distribution Contract"
+    },
+    "billing": {
+      "period": {
+        "delta": 1.0,
+        "uom": "yearly"
+      },
+      "next_date": "2022-12-28T11:40:23+00:00",
+      "anniversary": {
+        "day": 28,
+        "month": 12
+      }
+    }
+  },
+  {
+    "id": "AS-7294-6762-7713",
+    "status": "active",
+    "events": {
+      "created": {
+        "at": "2021-12-28T10:10:48+00:00"
+      },
+      "updated": {
+        "at": "2021-12-28T10:29:18+00:00"
+      }
+    },
+    "external_id": "1FVULUA3GH",
+    "external_uid": "0c22fb33-e373-4510-809d-3d417352f652",
+    "product": {
+      "id": "PRD-450-658-035",
+      "name": "NCE Microsoft Software Subscriptions Commercial",
+      "status": "published",
+      "icon": "/media/VA-610-138/PRD-450-658-035/media/PRD-450-658-035-logo_D2kB5QG.png"
+    },
+    "connection": {
+      "id": "CT-0000-0000-0000",
+      "hub": {
+        "id": "HB-0000-0000",
+        "name": "ACME Hub"
+      },
+      "provider": {
+        "id": "PA-800-926",
+        "name": "IMC Gamma Team Provider"
+      },
+      "vendor": {
+        "id": "VA-610-138",
+        "name": "IMC Gamma Team Vendor"
+      },
+      "type": "preview"
+    },
+    "items": [
+      {
+        "id": "PRD_450_658_035_0025",
+        "global_id": "PRD-450-658-035-0025",
+        "display_name": "Azure SQL Edge - 1 year (NCE COM BAS 1YR ANN)",
+        "mpn": "DG7GMGF0GJC2:0003_P1Y:Annual",
+        "item_type": "reservation",
+        "period": "yearly",
+        "quantity": 7.0,
+        "type": "Licenses"
+      }
+    ],
+    "params": [
+      {
+        "id": "tenant_preference",
+        "name": "tenant_preference",
+        "description": "Please select the desired option for the CSP account",
+        "type": "choice",
+        "value": "new"
+      },
+      {
+        "id": "relationship_url",
+        "name": "relationship_url",
+        "description": "To establish reseller relationships with existing customers this is the invitation URL to connect",
+        "type": "dropdown",
+        "value": ""
+      },
+      {
+        "id": "partner_on_record_attestation_accepted",
+        "name": "partner_on_record_attestation_accepted",
+        "description": "For new orders it is required to provide partner on record attestation",
+        "type": "checkbox",
+        "value": "",
+        "structured_value": {
+          "attestation_accepted": true
+        }
+      },
+      {
+        "id": "mpn_id",
+        "name": "mpn_id",
+        "description": "MPN ID",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "migration_info_object",
+        "name": "migration_info_object",
+        "description": "migration info object",
+        "type": "object"
+      },
+      {
+        "id": "migration_info",
+        "name": "migration_info",
+        "description": "Migraton info Data",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "microsoft_domain",
+        "name": "microsoft_domain",
+        "description": "Please provide a onmicrosoft.com domain, for example mycompanyDomain.onmicrosoft.com",
+        "type": "subdomain",
+        "value": "devroman2812202101.onmicrosoft.com"
+      },
+      {
+        "id": "last_name_agreement",
+        "name": "last_name_agreement",
+        "description": "Customer last name",
+        "type": "text",
+        "value": "test"
+      },
+      {
+        "id": "first_name_agreement",
+        "name": "first_name_agreement",
+        "description": "Customer first name",
+        "type": "text",
+        "value": "test"
+      },
+      {
+        "id": "effective_postal_code",
+        "name": "effective_postal_code",
+        "description": "Please provide the ZIP or Postal Code",
+        "type": "text",
+        "value": "94537"
+      },
+      {
+        "id": "effective_phonenumber",
+        "name": "effective_phonenumber",
+        "description": "Phone Number",
+        "type": "text",
+        "value": "12015550123"
+      },
+      {
+        "id": "offer_attestation",
+        "name": "offer_attestation",
+        "description": "Offer attestation",
+        "type": "checkbox",
+        "value": "",
+        "structured_value": {
+          "attestation_accepted": false
+        }
+      },
+      {
+        "id": "email_address_agreement",
+        "name": "email_address_agreement",
+        "description": "Email Address",
+        "type": "email",
+        "value": "janedoe2@catchall.infra.im"
+      },
+      {
+        "id": "effective_country",
+        "name": "effective_country",
+        "description": "Please provide your country code (2 letters)",
+        "type": "text",
+        "value": "US"
+      },
+      {
+        "id": "effective_city",
+        "name": "effective_city",
+        "description": "Please provide the City of your business",
+        "type": "text",
+        "value": "Fremont"
+      },
+      {
+        "id": "effective_state",
+        "name": "effective_state",
+        "description": "Please provide the State / Province / Region",
+        "type": "text",
+        "value": "CA"
+      },
+      {
+        "id": "effective_address",
+        "name": "effective_address",
+        "description": "Please provide your business address line",
+        "type": "text",
+        "value": "Po box 777"
+      },
+      {
+        "id": "education_auth",
+        "name": "education_auth",
+        "description": "https://partner.microsoft.com/en-US/resources/collection/csp-aer-partner-qualification-retirement",
+        "type": "dropdown",
+        "value": ""
+      },
+      {
+        "id": "mca_acceptance",
+        "name": "mca_acceptance",
+        "description": "MCA Acceptance",
+        "type": "dropdown",
+        "value": "yes"
+      },
+      {
+        "id": "customer_tax_id",
+        "name": "customer_tax_id",
+        "description": "Customer Tax Id",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "customer_email",
+        "name": "customer_email",
+        "description": "Email",
+        "type": "email",
+        "value": ""
+      },
+      {
+        "id": "customer_company_name",
+        "name": "customer_company_name",
+        "description": "Customer Company Name",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "agreement_date",
+        "name": "agreement_date",
+        "description": "Please add the date when the Microsoft Customer Agreement was accepted",
+        "type": "text",
+        "value": "12-28-2021"
+      },
+      {
+        "id": "subscription_id",
+        "name": "subscription_id",
+        "description": "Microsoft Subscription Id",
+        "type": "text",
+        "value": "1ef9036f-48f1-4cfc-c14b-95f6a03c5b84"
+      },
+      {
+        "id": "retry_counter",
+        "name": "retry_counter",
+        "description": "Retry Counter",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "provisioning_stage",
+        "name": "provisioning_stage",
+        "description": "provisioning Stage determine the stage of the order processing",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "ms_request_id",
+        "name": "ms_request_id",
+        "description": "If the MS request fails with a 50X error code, the connector must be send the same MS_Request_Id header in the next execution.",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "id": "ms_customer_id",
+        "name": "ms_customer_id",
+        "description": "Microsoft Customer Tenant Id",
+        "type": "text",
+        "value": "b3f437f5-73e9-4b44-9dea-998edba77411"
+      },
+      {
+        "id": "initial_password",
+        "name": "initial_password",
+        "description": "First time login password",
+        "type": "password",
+        "value": "Vjpo+fTx6"
+      },
+      {
+        "id": "csp_order_id",
+        "name": "csp_order_id",
+        "description": "Microsoft Order Id",
+        "type": "text",
+        "value": "982778f2cb33"
+      },
+      {
+        "id": "are_items_validated",
+        "name": "are_items_validated",
+        "description": "Are items validated",
+        "type": "text",
+        "value": "YES"
+      },
+      {
+        "id": "all_subscription_ids",
+        "name": "all_subscription_ids",
+        "description": "All order subscription ids to be used in billing reconciliation",
+        "type": "text",
+        "value": "982778f2cb33"
+      }
+    ],
+    "tiers": {
+      "customer": {
+        "id": "TA-6857-4480-5474",
+        "external_id": "49961",
+        "external_uid": "9ec86a32-bca4-4fec-981b-fe98d89abfc3",
+        "name": "Customer Ruben MS",
+        "tax_id": null,
+        "contact_info": {
+          "address_line1": "Po box 777",
+          "address_line2": "",
+          "city": "Fremont",
+          "state": "California",
+          "postal_code": "94537-0055",
+          "country": "US",
+          "contact": {
+            "first_name": "test",
+            "last_name": "test",
+            "email": "janedoe2@catchall.infra.im",
+            "phone_number": {
+              "country_code": "1",
+              "area_code": "201",
+              "phone_number": "5550123"
+            }
+          }
+        }
+      },
+      "tier1": {
+        "id": "TA-9705-4579-9409",
+        "external_id": "20492",
+        "external_uid": "2fdfd459-bd91-457c-a5aa-9b66ad297bc2",
+        "name": "MS Reseller Ruben L2",
+        "tax_id": null,
+        "contact_info": {
+          "address_line1": "Walter Junctions",
+          "address_line2": "Clementina Turnpike",
+          "city": "Jelenia Góra",
+          "state": "Dolnoslaskie",
+          "postal_code": "58-500",
+          "country": "PL",
+          "contact": {
+            "first_name": "Tito",
+            "last_name": "Raynor",
+            "email": "ruben.sebrango+Tito_Raynor@ingrammicro.com",
+            "phone_number": {
+              "country_code": "48",
+              "area_code": "665",
+              "phone_number": "558902"
+            }
+          }
+        }
+      },
+      "tier2": {
+        "id": "TA-4899-8022-4792",
+        "external_id": "2552",
+        "external_uid": "6b928770-bb9d-430a-89ca-d0bd6aa5bfe0",
+        "name": "Marketplace US New",
+        "tax_id": null,
+        "contact_info": {
+          "address_line1": "Howe Stream",
+          "address_line2": "Mayert Islands",
+          "city": "El Encanto",
+          "state": "Amazonas",
+          "postal_code": "913010",
+          "country": "CO",
+          "contact": {
+            "first_name": "Izabella",
+            "last_name": "Swift",
+            "email": "abc@demo.mail",
+            "phone_number": {
+              "country_code": "57",
+              "area_code": "123",
+              "phone_number": "45678"
+            }
+          }
+        }
+      }
+    },
+    "marketplace": {
+      "id": "MP-65669",
+      "name": "IM -  United States",
+      "icon": "/media/PA-800-926/marketplaces/MP-65669/icon.png"
+    },
+    "contract": {
+      "id": "CRD-00000-00000-00000",
+      "name": "ACME Distribution Contract"
+    },
+    "billing": {
+      "period": {
+        "delta": 1.0,
+        "uom": "yearly"
+      },
+      "next_date": "2022-12-28T10:29:18+00:00",
+      "anniversary": {
+        "day": 28,
+        "month": 12
+      }
+    }
+  }
+]

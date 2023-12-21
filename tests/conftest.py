@@ -172,3 +172,15 @@ def tc_request_direct():
     with open(os.path.dirname(
             __file__) + '/fixtures/tc_request_direct.json') as request:
         return json.load(request)
+
+
+@pytest.fixture
+def assets_collection():
+    with open(os.path.dirname(__file__) + '/fixtures/assets_collection.json') as request:
+        return json.load(request)
+
+
+@pytest.fixture
+def installation_list():
+    with open(os.path.dirname(__file__) + '/fixtures/installation_list.json') as request:
+        return json.load(request)
