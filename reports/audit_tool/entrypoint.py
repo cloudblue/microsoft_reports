@@ -78,8 +78,8 @@ def validate_parameters(parameters: dict):
         raise ValueError('The date range is required.')
 
     # Validate date range is not greater than 2 months
-    date_after = convert_to_datetime(parameters.get('date').get('after'))
-    date_before = convert_to_datetime(parameters.get('date').get('before'))
+    date_after = convert_to_datetime(parameters.get('date').get('after').replace('Z', ''))
+    date_before = convert_to_datetime(parameters.get('date').get('before').replace('Z', ''))
     difference_months = (date_after.year - date_before.year) * 12 + date_after.month - date_before.month
     if difference_months > 2:
         raise ValueError('The date range cannot be greater than 2 months.')
