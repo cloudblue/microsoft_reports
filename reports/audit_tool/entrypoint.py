@@ -172,61 +172,92 @@ def find_and_remove_subscription(subscription_id, customer_tenant):
     return None
 
 
-def process_row(subscription, request, error = None):
-    if error:
-        return process_row_error(error)
+def obtain_values_from_request(request):
+    values = {}
     params = get_value(request, ['params'])
     item = get_value(request, ['items', 0])
 
-    asset_id = get_value(request, ['id'])
-    provider_name = get_value(request, ['connection', 'provider', 'name'])
-    provider_id = get_value(request, ['connection', 'provider', 'id'])
-    marketplace_id = get_value(request, ['marketplace', 'id'])
-    subscription_id = parameter_value('subscription_id', params)
-    cbc_subscription_id = get_value(request, ['external_id'])
-    cbc_customer_id = parameter_value('ms_customer_id', params)
-    customer_name = get_value(request, ['tiers', 'customer', 'name'])
-    transaction_type = get_value(request, ['connection', 'type'])
-    domain = parameter_value('microsoft_domain', params)
-    offer_id = item['mpn']
-    offer_name = item['display_name']
-    cbc_status = get_value(request, ['status'])
+    values['asset_id'] = get_value(request, ['id'])
+    values['provider_name'] = get_value(request, ['connection', 'provider', 'name'])
+    values['provider_id'] = get_value(request, ['connection', 'provider', 'id'])
+    values['marketplace_id'] = get_value(request, ['marketplace', 'id'])
+    values['subscription_id'] = parameter_value('subscription_id', params)
+    values['cbc_subscription_id'] = get_value(request, ['external_id'])
+    values['cbc_customer_id'] = parameter_value('ms_customer_id', params)
+    values['customer_name'] = get_value(request, ['tiers', 'customer', 'name'])
+    values['transaction_type'] = get_value(request, ['connection', 'type'])
+    values['domain'] = parameter_value('microsoft_domain', params)
+    values['offer_id'] = item['mpn']
+    values['offer_name'] = item['display_name']
+    values['cbc_status'] = get_value(request, ['status'])
+    values['cbc_creation_date'] = get_value(request, ['events', 'created', 'at'])
+    values['cbc_licenses'] = item['quantity']
+    return values
+
+
+def process_row(subscription, request, error=None):
+    if error:
+        return process_row_error(request, error)
+
+    values = obtain_values_from_request(request)
+
     microsoft_status = subscription.get('status', None)
     microsoft_auto_renew = subscription.get('autoRenewEnabled', None)
-    cbc_creation_date = get_value(request, ['created_at'])
     microsoft_creation_date = subscription.get('creationDate', None)
     microsoft_commitment_end_date = subscription.get('commitmentEndDate', None)
-    cbc_licenses = item['quantity']
     microsoft_licenses = subscription.get('quantity', None)
 
     row = (
-        asset_id,
-        provider_name,
-        provider_id,
-        marketplace_id,
-        subscription_id,
-        cbc_subscription_id,
-        cbc_customer_id,
-        customer_name,
-        transaction_type,
-        domain,
-        offer_id,
-        offer_name,
-        cbc_status,
+        values['asset_id'],
+        values['provider_name'],
+        values['provider_id'],
+        values['marketplace_id'],
+        values['subscription_id'],
+        values['cbc_subscription_id'],
+        values['cbc_customer_id'],
+        values['customer_name'],
+        values['transaction_type'],
+        values['domain'],
+        values['offer_id'],
+        values['offer_name'],
+        values['cbc_status'],
         microsoft_status,
         microsoft_auto_renew,
-        cbc_creation_date,
+        values['cbc_creation_date'],
         microsoft_creation_date,
         microsoft_commitment_end_date,
-        cbc_licenses,
+        values['cbc_licenses'],
         microsoft_licenses,
         '-'
     )
     return row
 
 
-def process_row_error(error):
-    row = ('-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', error)
+def process_row_error(request, error):
+    values = obtain_values_from_request(request)
+    row = (
+        values['asset_id'],
+        values['provider_name'],
+        values['provider_id'],
+        values['marketplace_id'],
+        values['subscription_id'],
+        values['cbc_subscription_id'],
+        values['cbc_customer_id'],
+        values['customer_name'],
+        values['transaction_type'],
+        values['domain'],
+        values['offer_id'],
+        values['offer_name'],
+        values['cbc_status'],
+        '-',
+        '-',
+        values['cbc_creation_date'],
+        '-',
+        '-',
+        values['cbc_licenses'],
+        '-',
+        error
+    )
     return row
 
 
