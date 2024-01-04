@@ -47,8 +47,25 @@ def generate(
         renderer_type=None,
         extra_context_callback=None,
 ):
-    validate_parameters(parameters)
-    service_url = obtain_url_for_service(client)
+    try:
+        validate_parameters(parameters)
+        service_url = obtain_url_for_service(client)
+    except Exception as error:
+        error_str = str(error)
+        if renderer_type == 'csv':
+            yield HEADERS
+
+        if renderer_type == 'json':
+            yield {
+                HEADERS[idx].replace(' ', '_').lower(): value
+                for idx, value in
+                enumerate(process_row_error({}, error_str))
+            }
+        else:
+            yield process_row_error({}, error_str)
+        progress_callback(1, 1)
+        return
+
     requests = _get_request_list(client, parameters)
     mms_client = MMSClientAPI(client, service_url)
 
@@ -80,7 +97,7 @@ def validate_parameters(parameters: dict):
     # Validate date range is not greater than 2 months
     date_after = convert_to_datetime(parameters.get('date').get('after').replace('Z', ''))
     date_before = convert_to_datetime(parameters.get('date').get('before').replace('Z', ''))
-    difference_months = (date_after.year - date_before.year) * 12 + date_after.month - date_before.month
+    difference_months = (date_before.year - date_after.year) * 12 + date_before.month - date_after.month
     if difference_months > 2:
         raise ValueError('The date range cannot be greater than 2 months.')
 
@@ -174,8 +191,8 @@ def find_and_remove_subscription(subscription_id, customer_tenant):
 
 def obtain_values_from_request(request):
     values = {}
-    params = get_value(request, ['params'])
-    item = get_value(request, ['items', 0])
+    params = get_value(request, ['params'], {})
+    item = get_value(request, ['items', 0], {})
 
     values['asset_id'] = get_value(request, ['id'])
     values['provider_name'] = get_value(request, ['connection', 'provider', 'name'])
@@ -187,11 +204,11 @@ def obtain_values_from_request(request):
     values['customer_name'] = get_value(request, ['tiers', 'customer', 'name'])
     values['transaction_type'] = get_value(request, ['connection', 'type'])
     values['domain'] = parameter_value('microsoft_domain', params)
-    values['offer_id'] = item['mpn']
-    values['offer_name'] = item['display_name']
+    values['offer_id'] = item.get('mpn', '-')
+    values['offer_name'] = item.get('display_name', '-')
     values['cbc_status'] = get_value(request, ['status'])
     values['cbc_creation_date'] = get_value(request, ['events', 'created', 'at'])
-    values['cbc_licenses'] = item['quantity']
+    values['cbc_licenses'] = item.get('quantity', '-')
     return values
 
 

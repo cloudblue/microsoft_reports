@@ -309,3 +309,77 @@ def test_audit_tool(monkeypatch, progress, client_factory, response_factory, ass
     result = list(audit_tool.generate(client, parameters, progress))
 
     assert len(result) == 3
+
+def test_audit_tool_all_mkps(
+        monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': False,
+            'choices': ["test"]},
+        'mkp': {
+            'all': True,
+            'choices': ["MP-123"],
+        }
+    }
+
+    client = client_factory([])
+    result = list(audit_tool.generate(client, parameters, progress))
+
+    assert len(result) == 1
+
+
+def test_audit_tool_all_connection_types(
+        monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': True,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        }
+    }
+
+    client = client_factory([])
+    result = list(audit_tool.generate(client, parameters, progress))
+
+    assert len(result) == 1
+
+
+def test_audit_tool_bad_dates(
+        monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'date': {
+            'after': AFTER_DATE,
+            'before': '2023-12-20T00:00:00',
+        },
+        'connection_type': {
+            'all': True,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        }
+    }
+
+    client = client_factory([])
+    result = list(audit_tool.generate(client, parameters, progress))
+
+    assert len(result) == 1
