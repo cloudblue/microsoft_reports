@@ -33,10 +33,9 @@ HEADERS = [
 ]
 
 # This report is only valid for the NCE Commercial product in development and production environments.
-NCE_COMMERCIAL_PRODUCTS = ['PRD-183-233-565', 'PRD-814-505-018']
 MICROSOFT_SAAS = 'MICROSOFT_SAAS'
 SERVICE_IDS = ['SRVC-7117-4970', 'SRVC-7374-6941']
-
+VENDORS_IDS = ['VA-888-104', 'VA-610-138']
 active_subscriptions_not_processed = {}
 
 
@@ -48,7 +47,7 @@ def generate(
         extra_context_callback=None,
 ):
     try:
-        validate_parameters(parameters)
+        validate_parameters(parameters, client)
         service_url = obtain_url_for_service(client)
     except Exception as error:
         error_str = str(error)
@@ -89,17 +88,8 @@ def generate(
         progress_callback(progress, total)
 
 
-def validate_parameters(parameters: dict):
-    # Validate date range
-    if not parameters.get('date').get('after') or not parameters.get('date').get('before'):
-        raise ValueError('The date range is required.')
-
-    # Validate date range is not greater than 2 months
-    date_after = convert_to_datetime(parameters.get('date').get('after').replace('Z', ''))
-    date_before = convert_to_datetime(parameters.get('date').get('before').replace('Z', ''))
-    difference_months = (date_before.year - date_after.year) * 12 + date_before.month - date_after.month
-    if difference_months > 2:
-        raise ValueError('The date range cannot be greater than 2 months.')
+def validate_parameters(parameters: dict, client):
+    validate_date(parameters)
 
     # Validate marketplace is just one
     if parameters.get('mkp'):
@@ -113,6 +103,35 @@ def validate_parameters(parameters: dict):
             raise ValueError('Only one connection type can be selected.')
         if len(parameters.get('connection_type').get('choices')) != 1:
             raise ValueError('Only one connection type can be selected.')
+
+    if parameters.get('product'):
+        if parameters['product']['all'] is True:
+            raise ValueError('Only one product can be selected.')
+        if len(parameters.get('product').get('choices')) != 1:
+            raise ValueError('Only one product can be selected.')
+        check_if_product_is_valid(parameters['product']['choices'][0], client)
+
+
+def check_if_product_is_valid(product_id, client):
+    query = R()
+    query &= R().id.eq(product_id)
+    query &= R().owner.id.oneof(VENDORS_IDS)
+    products = client.products.filter(query)
+    if products.count() != 1:
+        raise ValueError('The product selected is not valid. Please select a valid product from Microsoft products.')
+
+
+def validate_date(parameters: dict):
+    # Validate date range
+    if not parameters.get('date').get('after') or not parameters.get('date').get('before'):
+        raise ValueError('The date range is required.')
+
+    # Validate date range is not greater than 2 months
+    date_after = convert_to_datetime(parameters.get('date').get('after').replace('Z', ''))
+    date_before = convert_to_datetime(parameters.get('date').get('before').replace('Z', ''))
+    difference_months = (date_before.year - date_after.year) * 12 + date_before.month - date_after.month
+    if difference_months > 2:
+        raise ValueError('The date range cannot be greater than 2 months.')
 
 
 def obtain_url_for_service(client):
@@ -132,7 +151,9 @@ def obtain_url_for_service(client):
 def _get_request_list(client, parameters):
     query = R()
     query &= R().status.eq('active')
-    query &= R().product.id.oneof(NCE_COMMERCIAL_PRODUCTS)
+
+    if parameters.get('product') and parameters['product']['all'] is False:
+        query &= R().asset.product.id.oneof(parameters['product']['choices'])
 
     if parameters.get('connection_type') and parameters['connection_type']['all'] is False:
         query &= R().connection.type.eq(parameters['connection_type']['choices'][0])

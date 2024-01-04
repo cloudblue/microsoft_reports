@@ -150,6 +150,13 @@
       "report_spec": "2",
       "parameters": [
         {
+          "id": "product",
+          "type": "product",
+          "name": "Product List",
+          "description": "Select the products you want to include in report",
+          "required": true
+        },
+        {
           "id": "date",
           "type": "date_range",
           "name": "Report period",

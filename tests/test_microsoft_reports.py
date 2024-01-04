@@ -273,6 +273,10 @@ def test_audit_tool(monkeypatch, progress, client_factory, response_factory, ass
         return customer_subscriptions_from_service()
 
     parameters = {
+        'product': {
+            'all': False,
+            'choices': ["PRD-183-233-565"],
+        },
         'date': {
             'after': AFTER_DATE,
             'before': BEFORE_DATE,
@@ -291,13 +295,17 @@ def test_audit_tool(monkeypatch, progress, client_factory, response_factory, ass
 
     responses = [
         response_factory(
+            query='and(eq(id,PRD-183-233-565),in(owner.id,(VA-888-104,VA-610-138)))',
+            value=[{'id': 'PRD-183-233-565'}]
+        ),
+        response_factory(
             query='and(eq(status,installed),'
                   'in(environment.extension.id,(SRVC-7117-4970,SRVC-7374-6941)))',
             value=installation_list),
         response_factory(count=3),
         response_factory(
             query='and(eq(status,active),'
-                  'in(product.id,(PRD-183-233-565,PRD-814-505-018)),'
+                  'in(asset.product.id,(PRD-183-233-565)),'
                   'eq(connection.type,test),'
                   'eq(marketplace.id,MP-123),'
                   'gt(created,2021-12-01T00:00:00),'
@@ -312,10 +320,12 @@ def test_audit_tool(monkeypatch, progress, client_factory, response_factory, ass
 
 def test_audit_tool_all_mkps(
         monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
-    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
-        return customer_subscriptions_from_service()
 
     parameters = {
+        'product': {
+            'all': False,
+            'choices': ["PRD-183-233-565"],
+        },
         'date': {
             'after': AFTER_DATE,
             'before': BEFORE_DATE,
@@ -337,10 +347,12 @@ def test_audit_tool_all_mkps(
 
 def test_audit_tool_all_connection_types(
         monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
-    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
-        return customer_subscriptions_from_service()
 
     parameters = {
+        'product': {
+            'all': True,
+            'choices': ["PRD-183-233-565"],
+        },
         'date': {
             'after': AFTER_DATE,
             'before': BEFORE_DATE,
@@ -360,12 +372,41 @@ def test_audit_tool_all_connection_types(
     assert len(result) == 1
 
 
-def test_audit_tool_bad_dates(
+def test_audit_tool_all_products(
         monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
-    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
-        return customer_subscriptions_from_service()
 
     parameters = {
+        'product': {
+            'all': False,
+            'choices': ["PRD-183-233-565"],
+        },
+        'date': {
+            'after': AFTER_DATE,
+            'before': '2023-12-20T00:00:00',
+        },
+        'connection_type': {
+            'all': True,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        }
+    }
+
+    client = client_factory([])
+    result = list(audit_tool.generate(client, parameters, progress))
+
+    assert len(result) == 1
+
+
+def test_audit_tool_bad_dates(
+        monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
+
+    parameters = {
+        'product': {
+            'all': False,
+            'choices': ["PRD-183-233-565"],
+        },
         'date': {
             'after': AFTER_DATE,
             'before': '2023-12-20T00:00:00',
