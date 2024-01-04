@@ -14,20 +14,20 @@ HEADERS = [
     'Provider ID',
     'Marketplace ID',
     'Subscription ID',
-    'CBC Subscription ID',
-    'CBC Customer ID',
+    'External Subscription ID',
+    'External Customer ID',
     'Customer Name',
     'Transaction Type',
     'Domain',
     'Offer ID',
     'Offer Name',
-    'CBC Status',
+    'Status',
     'Microsoft Status',
     'Microsoft Auto Renew',
     'CBC Creation Date',
     'Microsoft Creation Date',
     'Microsoft Commitment End Date',
-    'CBC Licenses',
+    'Licenses',
     'Microsoft Licenses',
     'Error details',
 ]
@@ -220,16 +220,16 @@ def obtain_values_from_request(request):
     values['provider_id'] = get_value(request, ['connection', 'provider', 'id'])
     values['marketplace_id'] = get_value(request, ['marketplace', 'id'])
     values['subscription_id'] = parameter_value('subscription_id', params)
-    values['cbc_subscription_id'] = get_value(request, ['external_id'])
-    values['cbc_customer_id'] = parameter_value('ms_customer_id', params)
+    values['external_subscription_id'] = get_value(request, ['external_id'])
+    values['external_customer_id'] = get_value(request, ['tiers', 'customer', 'external_id'])
     values['customer_name'] = get_value(request, ['tiers', 'customer', 'name'])
     values['transaction_type'] = get_value(request, ['connection', 'type'])
     values['domain'] = parameter_value('microsoft_domain', params)
     values['offer_id'] = item.get('mpn', '-')
     values['offer_name'] = item.get('display_name', '-')
-    values['cbc_status'] = get_value(request, ['status'])
-    values['cbc_creation_date'] = get_value(request, ['events', 'created', 'at'])
-    values['cbc_licenses'] = item.get('quantity', '-')
+    values['status'] = get_value(request, ['status'])
+    values['creation_date'] = get_value(request, ['events', 'created', 'at'])
+    values['licenses'] = item.get('quantity', '-')
     return values
 
 
@@ -251,20 +251,20 @@ def process_row(subscription, request, error=None):
         values['provider_id'],
         values['marketplace_id'],
         values['subscription_id'],
-        values['cbc_subscription_id'],
-        values['cbc_customer_id'],
+        values['external_subscription_id'],
+        values['external_customer_id'],
         values['customer_name'],
         values['transaction_type'],
         values['domain'],
         values['offer_id'],
         values['offer_name'],
-        values['cbc_status'],
+        values['status'],
         microsoft_status,
         microsoft_auto_renew,
-        values['cbc_creation_date'],
+        values['creation_date'],
         microsoft_creation_date,
         microsoft_commitment_end_date,
-        values['cbc_licenses'],
+        values['licenses'],
         microsoft_licenses,
         '-'
     )
@@ -279,20 +279,20 @@ def process_row_error(request, error):
         values['provider_id'],
         values['marketplace_id'],
         values['subscription_id'],
-        values['cbc_subscription_id'],
-        values['cbc_customer_id'],
+        values['external_subscription_id'],
+        values['external_customer_id'],
         values['customer_name'],
         values['transaction_type'],
         values['domain'],
         values['offer_id'],
         values['offer_name'],
-        values['cbc_status'],
+        values['status'],
         '-',
         '-',
-        values['cbc_creation_date'],
+        values['creation_date'],
         '-',
         '-',
-        values['cbc_licenses'],
+        values['licenses'],
         '-',
         error
     )
