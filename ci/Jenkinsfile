@@ -105,76 +105,23 @@ def pipelineStages = [
         """
     }],
     [name: 'Python Dependency Packager', steps: {
-        if (env.PUBLISH_PACKAGE.toBoolean() && env.HAS_REQUIREMENTS.toBoolean()) {
+        withCredentials([usernamePassword(credentialsId: 'xvantage-partners-integrations', passwordVariable: 'GITHUB_PASS', usernameVariable: 'GITHUB_USER')]) {
+            sh """#!/bin/bash
+            set -euxo pipefail
+
+            git config --global credential.helper store
+            echo "https://\$GITHUB_USER:\$GITHUB_PASS@github.com" > ~/.git-credentials
+            """
+        }
+
+        if (env.PUBLISH_PACKAGE.toBoolean()) {
             withCredentials([sshUserPrivateKey(credentialsId: 'ci.jenkins.svc', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
                 sh """#!/bin/bash
                 set -euxo pipefail
 
-                python -m pip install build poetry
-                
-                mv ${env.FILE_NAME_REQUIREMENTS} requirements.preprocess.txt
-
-                REQUIREMENTS=(\$(cat requirements.preprocess.txt))
-                PROJECT_WORK_DIR=\$(pwd)
-
-                mkdir -p deps/
-                mkdir -p build/
-
-                for requirement in "\${REQUIREMENTS[@]}"; do
-                if [[ \$requirement == *"git+"* ]]; then
-                    dependency_source=\$(echo \$requirement | sed "s/git+//g")
-                    dependency_name=\${dependency_source##*=}
-                    dependency_version="master"
-                    dependency_repository_full=\$(echo \$dependency_source | cut -f 1 -d "#")
-                    dependency_repository=\${dependency_repository_full%@*}
-
-                    at_count=\$(echo "\$dependency_repository_full" | awk -F"@" '{print NF-1}')
-                    if [ \$at_count -ge 1 ]; then
-                        dependency_version=\$(echo \$dependency_repository_full | rev | cut -f 1 -d "@" | rev)
-                    fi
-
-                    echo "Dependency Source: \$dependency_source"
-                    echo "Dependency Name: \$dependency_name"
-                    echo "Dependency Version: \$dependency_version"
-                    echo "Dependency Repository: \$dependency_repository"
-
-                    if [ \$dependency_version == "master" ]; then
-                        GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -i \$SSH_PRIVATE_KEY" git clone \$dependency_repository build/\$dependency_name
-                    else
-                        GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -i \$SSH_PRIVATE_KEY" git clone -b \$dependency_version --single-branch \$dependency_repository build/\$dependency_name
-                    fi
-
-                    cd build/\$dependency_name
-                    if [ -f "pyproject.toml" ]
-                    then
-                        poetry build
-                    else
-                        python -m build --wheel
-                    fi
-                    cd \$PROJECT_WORK_DIR
-
-                    cp build/\$dependency_name/dist/*.whl build/
-                    rm -rf build/\$dependency_name
-
-                    ls -lrt build
-                fi
-                done
-
-                touch requirements.txt
-                cat requirements.preprocess.txt | sed '/git+/d' > requirements.txt
-
-                echo "Adding dependencies locally"
-                dependencies=(\$(find build/ -iname "*.whl"))
-                for dependency in "\${dependencies[@]}"; do
-                    dependency=\${dependency/build//}
-                    mv "build/\${dependency}" "deps/\${dependency}"
-                    echo "Adding requirement \${dependency}"
-                    echo -e "deps/\${dependency}" >> requirements.txt
-                done
-
-                rm -rf build requirements.preprocess.txt
-
-                cat requirements.txt
+                GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -i \$SSH_PRIVATE_KEY" git clone ssh://git@git.int.zone/sitl/jenkins-python-packager.git /dependency_packager
+                chmod 755 /dependency_packager/generate_wheels.sh
+                /dependency_packager/generate_wheels.sh ./
                 """
             }
         }
