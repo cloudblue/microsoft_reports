@@ -49,6 +49,28 @@ def generate(
     try:
         validate_parameters(parameters, client)
         service_url = obtain_url_for_service(client)
+        requests = _get_request_list(client, parameters)
+        mms_client = MMSClientAPI(client, service_url)
+
+        progress = 0
+        total = requests.count()
+        if renderer_type == 'csv':
+            yield HEADERS
+
+        for request in requests:
+            # Filtering the parameter value directly as the client query returns timeout error
+            if renderer_type == 'json':
+                yield {
+                    HEADERS[idx].replace(' ', '_').lower(): value
+                    for idx, value in
+                    enumerate(_process_line(request, parameters, mms_client))
+                }
+            else:
+                yield _process_line(request, parameters, mms_client)
+
+            progress += 1
+            progress_callback(progress, total)
+
     except Exception as error:
         error_str = str(error)
         if renderer_type == 'csv':
@@ -64,28 +86,6 @@ def generate(
             yield process_row_error({}, error_str)
         progress_callback(1, 1)
         return
-
-    requests = _get_request_list(client, parameters)
-    mms_client = MMSClientAPI(client, service_url)
-
-    progress = 0
-    total = requests.count()
-    if renderer_type == 'csv':
-        yield HEADERS
-
-    for request in requests:
-        # Filtering the parameter value directly as the client query returns timeout error
-        if renderer_type == 'json':
-            yield {
-                HEADERS[idx].replace(' ', '_').lower(): value
-                for idx, value in
-                enumerate(_process_line(request, parameters, mms_client))
-            }
-        else:
-            yield _process_line(request, parameters, mms_client)
-
-        progress += 1
-        progress_callback(progress, total)
 
 
 def validate_parameters(parameters: dict, client):
