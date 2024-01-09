@@ -141,7 +141,7 @@
       ]
     },
     {
-      "name": "Audit Tool Report",
+      "name": "Microsoft Audit Tool Report",
       "readme_file": "reports/audit_tool/README.md",
       "entrypoint": "reports.audit_tool.entrypoint.generate",
       "audience": [

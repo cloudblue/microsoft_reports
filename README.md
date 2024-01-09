@@ -4,6 +4,7 @@ In this repository you can find multiple reports to use with Microsoft Connector
 
 - New Commerce Promotions - report containing the NCE commercial subscriptions to which an NCE Promotional discount was applied by Microsoft
 - New Commerce Migrations - report containing history details for CSP to NCE migration for all subscriptions within a date range
+- Microsoft Audit Tool - report containing the information about Microsoft Subscriptions from Connect and Microsoft to be compared.
 
 ## License
 
