@@ -20,8 +20,9 @@ def environment = [
 
     PUBLISH_PACKAGE: false,
     PACKAGE_TYPE: "zip",
-    STORAGE_HOST: "storage.dev.cloud.im",
-    STORAGE_PATH: "/home/storage/connect/${env.PROJECT_NAME}",
+    JFROG_REPO: "aps-integrations",
+    JFROG_PATH: "", // Leave empty to use the PROJECT_NAME
+    JFROG_URL: "https://repo.com.int.zone/artifactory/",
 
     FILE_NAME_PYPROJECT_TOML: "pyproject.toml",
     FILE_NAME_REQUIREMENTS: "requirements.txt",
@@ -60,6 +61,12 @@ def pipelineStages = [
         }
         
         env.PROJECT_DELIVERABLE="${env.PROJECT_NAME}-${env.PROJECT_VERSION}.${env.PACKAGE_TYPE}"
+
+        if (env.JFROG_PATH == null) {
+            env.JFROG_UPLOAD_URL = "${env.JFROG_URL}${env.JFROG_REPO}/${env.PROJECT_NAME}/"
+        } else {
+            env.JFROG_UPLOAD_URL = "${env.JFROG_URL}${env.JFROG_REPO}/${env.JFROG_PATH}/"
+        }
     }],
     [name: 'Installing tools', steps: {
         sh """#!/bin/bash
@@ -68,7 +75,7 @@ def pipelineStages = [
         python --version
 
         echo "Updating base packages..."
-        apt update && apt-get install -y default-jre wget zip unzip
+        apt update && apt install -y default-jre wget zip unzip dos2unix
         python -m pip install --upgrade pip
 
         if [ "${env.HAS_PYPROJECT}" = true ]
@@ -275,13 +282,11 @@ def pipelineStages = [
     [name: 'Publish Package', steps: {
         if (env.PUBLISH_PACKAGE.toBoolean()) {
             if (env.BRANCH_NAME == "master" && env.SEMANTIC_VERSION != "v0.0.0-dev") {
-                withCredentials([sshUserPrivateKey(credentialsId: 'connect-storage-dev-ssh-key', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
+                withCredentials([usernamePassword(credentialsId: 'ci-user', passwordVariable: 'CRED_SECRET', usernameVariable: 'CRED_USER')]) {
                     sh """#!/bin/bash
                     set -euxo pipefail
 
-                    ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no -l storage ${env.STORAGE_HOST} "[ -d ${env.STORAGE_PATH} ] ||  mkdir -p ${env.STORAGE_PATH}"
-                    scp -i $SSH_PRIVATE_KEY "${env.PROJECT_DELIVERABLE}" storage@${env.STORAGE_HOST}:${env.STORAGE_PATH}/${env.PROJECT_DELIVERABLE}
-                    echo "Link to download the package: http://${env.STORAGE_HOST}:81/connect/${env.PROJECT_NAME}/${env.PROJECT_DELIVERABLE}"
+                    curl -sSf -u ${CRED_USER}:${CRED_SECRET} -X PUT -T "${env.PROJECT_DELIVERABLE}" "${env.JFROG_UPLOAD_URL}${env.PROJECT_DELIVERABLE}"
                     """
                 }
             }
