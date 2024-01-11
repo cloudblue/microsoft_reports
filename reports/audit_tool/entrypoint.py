@@ -12,12 +12,12 @@ HEADERS = [
     'Asset ID',
     'Provider Name',
     'Provider ID',
-    'Marketplace ID',
+    'Marketplace Name',
     'Subscription ID',
     'External Subscription ID',
     'External Customer ID',
     'Customer Name',
-    'Transaction Type',
+    'Connection Type',
     'Domain',
     'Offer ID',
     'Offer Name',
@@ -153,7 +153,7 @@ def _get_request_list(client, parameters):
     query &= R().status.eq('active')
 
     if parameters.get('product') and parameters['product']['all'] is False:
-        query &= R().asset.product.id.oneof(parameters['product']['choices'])
+        query &= R().product.id.oneof(parameters['product']['choices'])
 
     if parameters.get('connection_type') and parameters['connection_type']['all'] is False:
         query &= R().connection.type.eq(parameters['connection_type']['choices'][0])
@@ -210,34 +210,54 @@ def find_and_remove_subscription(subscription_id, customer_tenant):
     return None
 
 
-def obtain_values_from_request(request):
+def process_asset_values(request) -> dict:
     values = {}
     params = get_value(request, ['params'], {})
-    item = get_value(request, ['items', 0], {})
 
     values['asset_id'] = get_value(request, ['id'])
     values['provider_name'] = get_value(request, ['connection', 'provider', 'name'])
     values['provider_id'] = get_value(request, ['connection', 'provider', 'id'])
-    values['marketplace_id'] = get_value(request, ['marketplace', 'id'])
+    values['marketplace_name'] = get_value(request, ['marketplace', 'name'])
     values['subscription_id'] = parameter_value('subscription_id', params)
     values['external_subscription_id'] = get_value(request, ['external_id'])
     values['external_customer_id'] = get_value(request, ['tiers', 'customer', 'external_id'])
     values['customer_name'] = get_value(request, ['tiers', 'customer', 'name'])
     values['transaction_type'] = get_value(request, ['connection', 'type'])
     values['domain'] = parameter_value('microsoft_domain', params)
-    values['offer_id'] = item.get('mpn', '-')
-    values['offer_name'] = item.get('display_name', '-')
     values['status'] = get_value(request, ['status'])
     values['creation_date'] = get_value(request, ['events', 'created', 'at'])
-    values['licenses'] = item.get('quantity', '-')
+
     return values
 
 
-def process_row(subscription, request, error=None):
+def process_item_values(values, item) -> dict:
+    values['offer_id'] = item.get('mpn', '-')
+    values['offer_name'] = item.get('display_name', '-')
+    values['licenses'] = item.get('quantity', '-')
+
+    return values
+
+
+def process_item_list(values, items, subscription):
+    items = list(filter(lambda item_to_process: int(item_to_process.get('quantity')) > 0, items))
+    if len(items) > 1:
+        for item in items:
+            if item.get('mpn') == subscription.get('offerId'):
+                values = process_item_values(values, item)
+                break
+    else:
+        values = process_item_values(values, items[0])
+
+    return values
+
+
+def process_row(subscription, request, error=None) -> tuple:
     if error:
         return process_row_error(request, error)
+    values_request = process_asset_values(request)
 
-    values = obtain_values_from_request(request)
+    items = get_value(request, ['items'], [])
+    values_request = process_item_list(values_request, items, subscription)
 
     microsoft_status = subscription.get('status', None)
     microsoft_auto_renew = subscription.get('autoRenewEnabled', None)
@@ -246,53 +266,53 @@ def process_row(subscription, request, error=None):
     microsoft_licenses = subscription.get('quantity', None)
 
     row = (
-        values['asset_id'],
-        values['provider_name'],
-        values['provider_id'],
-        values['marketplace_id'],
-        values['subscription_id'],
-        values['external_subscription_id'],
-        values['external_customer_id'],
-        values['customer_name'],
-        values['transaction_type'],
-        values['domain'],
-        values['offer_id'],
-        values['offer_name'],
-        values['status'],
+        values_request['asset_id'],
+        values_request['provider_name'],
+        values_request['provider_id'],
+        values_request['marketplace_name'],
+        values_request['subscription_id'],
+        values_request['external_subscription_id'],
+        values_request['external_customer_id'],
+        values_request['customer_name'],
+        values_request['transaction_type'],
+        values_request['domain'],
+        values_request.get('offer_id', '-'),
+        values_request.get('offer_name', '-'),
+        values_request['status'],
         microsoft_status,
         microsoft_auto_renew,
-        values['creation_date'],
+        values_request['creation_date'],
         microsoft_creation_date,
         microsoft_commitment_end_date,
-        values['licenses'],
+        values_request.get('licenses', '-'),
         microsoft_licenses,
         '-'
     )
     return row
 
 
-def process_row_error(request, error):
-    values = obtain_values_from_request(request)
+def process_row_error(request, error) -> tuple:
+    values_request = process_asset_values(request)
     row = (
-        values['asset_id'],
-        values['provider_name'],
-        values['provider_id'],
-        values['marketplace_id'],
-        values['subscription_id'],
-        values['external_subscription_id'],
-        values['external_customer_id'],
-        values['customer_name'],
-        values['transaction_type'],
-        values['domain'],
-        values['offer_id'],
-        values['offer_name'],
-        values['status'],
+        values_request['asset_id'],
+        values_request['provider_name'],
+        values_request['provider_id'],
+        values_request['marketplace_name'],
+        values_request['subscription_id'],
+        values_request['external_subscription_id'],
+        values_request['external_customer_id'],
+        values_request['customer_name'],
+        values_request['transaction_type'],
+        values_request['domain'],
+        values_request.get('offer_id', '-'),
+        values_request.get('offer_name', '-'),
+        values_request['status'],
         '-',
         '-',
-        values['creation_date'],
+        values_request['creation_date'],
         '-',
         '-',
-        values['licenses'],
+        values_request.get('licenses', '-'),
         '-',
         error
     )

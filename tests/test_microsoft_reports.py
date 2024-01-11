@@ -305,7 +305,7 @@ def test_audit_tool(monkeypatch, progress, client_factory, response_factory, ass
         response_factory(count=3),
         response_factory(
             query='and(eq(status,active),'
-                  'in(asset.product.id,(PRD-183-233-565)),'
+                  'in(product.id,(PRD-183-233-565)),'
                   'eq(connection.type,test),'
                   'eq(marketplace.id,MP-123),'
                   'gt(created,2021-12-01T00:00:00),'
