@@ -94,7 +94,7 @@ def validate_parameters(parameters: dict, client):
     # Validate marketplace is just one
     if parameters.get('mkp'):
         if parameters['mkp']['all'] is True:
-            raise ValueError('Only one marketplace can be selected.')
+            check_if_only_one_marketplace_is_available(client)
         if len(parameters.get('mkp').get('choices')) != 1:
             raise ValueError('Only one marketplace can be selected.')
 
@@ -110,6 +110,12 @@ def validate_parameters(parameters: dict, client):
         if len(parameters.get('product').get('choices')) != 1:
             raise ValueError('Only one product can be selected.')
         check_if_product_is_valid(parameters['product']['choices'][0], client)
+
+
+def check_if_only_one_marketplace_is_available(client):
+    marketplaces = client.marketplaces.all()
+    if marketplaces.count() != 1:
+        raise ValueError('Only one marketplace can be selected.')
 
 
 def check_if_product_is_valid(product_id, client):
