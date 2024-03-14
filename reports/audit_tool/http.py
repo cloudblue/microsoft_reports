@@ -19,7 +19,8 @@ class MMSClientAPI(object): # pragma: no cover
         headers.update({"X-APP-ID-MICROSOFT-EAAS": "unique_application_id"})
         return headers
 
-    def get_ms_customer_subscriptions(self, product_type, marketplace_id, environment, ms_customer_id) -> (dict, int):
+    def get_ms_customer_subscriptions(
+            self, product_type, marketplace_id, environment, ms_customer_id) -> (dict, int):
         headers = self._get_headers()
         response = requests.get(
             '{}/api/customer-subscriptions?product_type={}&marketplace_id={}&environment={}&ms_tenant_id={}'.format(
@@ -33,12 +34,9 @@ class MMSClientAPI(object): # pragma: no cover
         if response.status_code == 200:
             subscriptions = response.json()
             return subscriptions
-        elif response.status_code == 400:
+        if response.status_code == 400:
             self.handle_response_error_codes(response)
-        elif response.status_code == 500:
-            raise MMSClientAPIError(response.json()['error_message'])
-        else:
-            raise MMSClientAPIError('Error getting subscription from Microsoft')
+        raise MMSClientAPIError(response.json()['error_message'])
 
     def handle_response_error_codes(self, response):
         if response.json()['error_code'] == 1000:

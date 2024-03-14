@@ -63,10 +63,10 @@ def generate(
                 yield {
                     HEADERS[idx].replace(' ', '_').lower(): value
                     for idx, value in
-                    enumerate(_process_line(request, parameters, mms_client))
+                    enumerate(_process_line(request, parameters, mms_client, progress))
                 }
             else:
-                yield _process_line(request, parameters, mms_client)
+                yield _process_line(request, parameters, mms_client, progress)
 
             progress += 1
             progress_callback(progress, total)
@@ -172,7 +172,7 @@ def _get_request_list(client, parameters):
     return client.assets.filter(query)
 
 
-def _process_line(request, parameters, mms_client):
+def _process_line(request, parameters, mms_client, progress):
     environment = parameters.get('connection_type').get('choices')[0]
     params = get_value(request, ['params'])
     customer_tenant = parameter_value('ms_customer_id', params)
@@ -186,10 +186,13 @@ def _process_line(request, parameters, mms_client):
             subscriptions = mms_client.get_ms_customer_subscriptions(product_type=MICROSOFT_SAAS,
                                                                      marketplace_id=marketplace_id,
                                                                      environment=environment,
-                                                                     ms_customer_id=customer_tenant)
+                                                                     ms_customer_id=customer_tenant,
+                                                                     total_count=progress)
             active_subscriptions_not_processed[customer_tenant] = prepare_subscriptions_to_save(subscriptions)
             subscription_to_process = find_and_remove_subscription(subscription_id, customer_tenant)
         except SubscriptionCantBeObtained as error:
+            if progress == 0:
+                raise StopProcessingReport(f"There is an error with the Microsoft Management Settings: {str(error)}")
             return process_row({}, request, error=str(error))
         except MMSClientAPIError as error:
             raise StopProcessingReport(f"There is an error with the Microsoft Management Settings: {str(error)}")
