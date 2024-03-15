@@ -186,8 +186,7 @@ def _process_line(request, parameters, mms_client, progress):
             subscriptions = mms_client.get_ms_customer_subscriptions(product_type=MICROSOFT_SAAS,
                                                                      marketplace_id=marketplace_id,
                                                                      environment=environment,
-                                                                     ms_customer_id=customer_tenant,
-                                                                     total_count=progress)
+                                                                     ms_customer_id=customer_tenant)
             active_subscriptions_not_processed[customer_tenant] = prepare_subscriptions_to_save(subscriptions)
             subscription_to_process = find_and_remove_subscription(subscription_id, customer_tenant)
         except SubscriptionCantBeObtained as error:
