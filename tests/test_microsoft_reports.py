@@ -304,7 +304,7 @@ def test_audit_tool(monkeypatch, progress, client_factory, response_factory, ass
             value=installation_list),
         response_factory(count=3),
         response_factory(
-            query='and(eq(status,active),'
+            query='and(in(status,(active,suspended,terminated,terminating)),'
                   'in(product.id,(PRD-183-233-565)),'
                   'eq(connection.type,test),'
                   'eq(marketplace.id,MP-123),'

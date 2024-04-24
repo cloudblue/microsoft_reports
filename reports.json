@@ -164,6 +164,31 @@
           "required": true
         },
         {
+          "id": "status",
+          "type": "checkbox",
+          "name": "Subscription status",
+          "required": false,
+          "description": "Select the status of subscriptions to include in report",
+          "choices": [
+            {
+              "value": "active",
+              "label": "Active"
+            },
+            {
+              "value": "suspended",
+              "label": "Suspended"
+            },
+            {
+              "value": "terminated",
+              "label": "Terminated"
+            },
+            {
+              "value": "terminating",
+              "label": "Terminating"
+            }
+          ]
+        },
+        {
           "id": "connection_type",
           "type": "checkbox",
           "name": "Transaction type",
