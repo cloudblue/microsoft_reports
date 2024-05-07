@@ -268,9 +268,9 @@ def process_row(subscription, request, error=None) -> tuple:
     values_request = process_item_list(values_request, items, subscription)
 
     microsoft_status = subscription.get('status', None)
-    microsoft_auto_renew = subscription.get('autoRenewEnabled', None)
-    microsoft_creation_date = subscription.get('creationDate', None)
-    microsoft_commitment_end_date = subscription.get('commitmentEndDate', None)
+    microsoft_auto_renew = subscription.get('auto_renew_enabled', None)
+    microsoft_creation_date = subscription.get('creation_date', None)
+    microsoft_commitment_end_date = subscription.get('commitment_end_date', None)
     microsoft_licenses = subscription.get('quantity', None)
 
     row = (
