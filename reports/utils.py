@@ -14,7 +14,7 @@ def convert_to_datetime(value):
         return "-"
 
     return datetime.strptime(
-        value.replace("T", " ").replace("+00:00", ""),
+        value.replace("T", " ").replace("+00:00", "").split('.')[0],
         "%Y-%m-%d %H:%M:%S",
     )
 
