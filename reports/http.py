@@ -1,8 +1,12 @@
 import requests
-from connect.client import ConnectClient
+from connect.client import ConnectClient, R
+
+from reports.utils import get_value
+
+SERVICE_IDS = ['SRVC-7117-4970', 'SRVC-7374-6941']
 
 
-class MMSClientAPI(object): # pragma: no cover
+class MMSClientAPI(object):  # pragma: no cover
     """ Microsoft Management Settings client API """
     api_url = ""
 
@@ -52,3 +56,17 @@ class MMSClientAPIError(Exception):
 
 class SubscriptionCantBeObtained(MMSClientAPIError):
     pass
+
+
+def obtain_url_for_service(client):
+    query = R()
+    query &= R().status.eq('installed')
+    query &= R().environment.extension.id.oneof(SERVICE_IDS)
+    installation = client.ns('devops').collection('installations').filter(query).first()
+    if not installation:
+        raise ValueError('The service for the MMS was not found.')
+
+    hostname = get_value(installation, ['environment', 'hostname'])
+    domain = get_value(installation, ['environment', 'domain'])
+    url = 'https://' + hostname + '.' + domain
+    return url

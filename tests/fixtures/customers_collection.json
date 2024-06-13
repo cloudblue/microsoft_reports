@@ -1,0 +1,38 @@
+[
+  {
+    "id": "TA-1991-8548-2756",
+    "version": 1,
+    "name": "test customer1",
+    "type": "customer",
+    "db": "US",
+    "external_id": "1000161",
+    "external_uid": "14859795-609f-4a1e-a51d-f201adfb8c85",
+    "parent": {
+      "id": "TA-5758-8195-4429",
+      "name": "resellerL2",
+      "external_id": "1000159"
+    },
+    "owner": {
+      "id": "PA-800-926",
+      "name": "IMC Gamma Team Provider"
+    },
+    "scopes": [],
+    "hub": {
+      "id": "HB-2032-3897",
+      "name": "testhub"
+    },
+    "events": {
+      "created": {
+        "at": "2024-05-13T10:25:26+00:00",
+        "by": {
+          "id": "SU-111-115-990",
+          "name": "provider"
+        }
+      },
+      "updated": {
+        "at": "2024-05-13T10:25:26+00:00"
+      }
+    },
+    "environment": "test"
+  }
+]

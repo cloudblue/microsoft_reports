@@ -184,3 +184,9 @@ def assets_collection():
 def installation_list():
     with open(os.path.dirname(__file__) + '/fixtures/installation_list.json') as request:
         return json.load(request)
+
+
+@pytest.fixture
+def customers_collection():
+    with open(os.path.dirname(__file__) + '/fixtures/customers_collection.json') as request:
+        return json.load(request)

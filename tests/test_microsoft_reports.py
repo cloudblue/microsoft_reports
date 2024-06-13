@@ -6,7 +6,9 @@
 import reports.nce_promos.entrypoint as nce_promos
 import reports.nce_migrations.entrypoint as nce_migrations
 import reports.audit_tool.entrypoint as audit_tool
-from reports.audit_tool.http import MMSClientAPI
+import reports.missing_subscriptions.entrypoint as missing_subscriptions
+from reports.http import MMSClientAPI
+
 
 from tests.test_utils import data_migration_requests, customer_subscriptions_from_service
 
@@ -173,7 +175,6 @@ def test_nce_promos_direct_sales_model(progress, client_factory, response_factor
     assert len(result) == 1
 
 
-
 def test_nce_migrations(progress, client_factory, response_factory):
     parameters = {
         'date': {
@@ -190,14 +191,14 @@ def test_nce_migrations(progress, client_factory, response_factory):
     }
 
     responses = [response_factory(count=1),
-        response_factory(query='and(eq(type,purchase),'
-               'eq(status,approved),'
-               'in(asset.product.id,(PRD-183-233-565,PRD-814-505-018)),'
-               'in(asset.connection.type,(test)),'
-               f'ge(updated,{AFTER_DATE}),'
-               f'le(updated,{BEFORE_DATE}))',
-            value=data_migration_requests())
-    ]
+                 response_factory(query='and(eq(type,purchase),'
+                                        'eq(status,approved),'
+                                        'in(asset.product.id,(PRD-183-233-565,PRD-814-505-018)),'
+                                        'in(asset.connection.type,(test)),'
+                                        f'ge(updated,{AFTER_DATE}),'
+                                        f'le(updated,{BEFORE_DATE}))',
+                                  value=data_migration_requests())
+                 ]
 
     client = client_factory(responses)
     result = list(nce_migrations.generate(client, parameters, progress))
@@ -221,14 +222,14 @@ def test_nce_migrations_csv_rendered(progress, client_factory, response_factory)
     }
 
     responses = [response_factory(count=1),
-        response_factory(query='and(eq(type,purchase),'
-               'eq(status,approved),'
-               'in(asset.product.id,(PRD-183-233-565,PRD-814-505-018)),'
-               'in(asset.connection.type,(test)),'
-               f'ge(updated,{AFTER_DATE}),'
-               f'le(updated,{BEFORE_DATE}))',
-            value=data_migration_requests())
-    ]
+                 response_factory(query='and(eq(type,purchase),'
+                                        'eq(status,approved),'
+                                        'in(asset.product.id,(PRD-183-233-565,PRD-814-505-018)),'
+                                        'in(asset.connection.type,(test)),'
+                                        f'ge(updated,{AFTER_DATE}),'
+                                        f'le(updated,{BEFORE_DATE}))',
+                                  value=data_migration_requests())
+                 ]
 
     client = client_factory(responses)
     result = list(nce_migrations.generate(client, parameters, progress, renderer_type='csv'))
@@ -253,14 +254,14 @@ def test_nce_migrations_json_rendered(progress, client_factory, response_factory
     }
 
     responses = [response_factory(count=1),
-        response_factory(query='and(eq(type,purchase),'
-               'eq(status,approved),'
-               'in(asset.product.id,(PRD-183-233-565,PRD-814-505-018)),'
-               'in(asset.connection.type,(test)),'
-               f'ge(updated,{AFTER_DATE}),'
-               f'le(updated,{BEFORE_DATE}))',
-            value=data_migration_requests())
-    ]
+                 response_factory(query='and(eq(type,purchase),'
+                                        'eq(status,approved),'
+                                        'in(asset.product.id,(PRD-183-233-565,PRD-814-505-018)),'
+                                        'in(asset.connection.type,(test)),'
+                                        f'ge(updated,{AFTER_DATE}),'
+                                        f'le(updated,{BEFORE_DATE}))',
+                                  value=data_migration_requests())
+                 ]
 
     client = client_factory(responses)
     result = list(nce_migrations.generate(client, parameters, progress, renderer_type='json'))
@@ -480,9 +481,9 @@ def test_audit_tool_terminated_and_deleted(monkeypatch, progress, client_factory
 
     assert len(result) == 3
 
+
 def test_audit_tool_all_mkps(
         monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
-
     parameters = {
         'product': {
             'all': False,
@@ -509,7 +510,6 @@ def test_audit_tool_all_mkps(
 
 def test_audit_tool_all_connection_types(
         monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
-
     parameters = {
         'product': {
             'all': True,
@@ -536,7 +536,6 @@ def test_audit_tool_all_connection_types(
 
 def test_audit_tool_all_products(
         monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
-
     parameters = {
         'product': {
             'all': False,
@@ -563,7 +562,6 @@ def test_audit_tool_all_products(
 
 def test_audit_tool_bad_dates(
         monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
-
     parameters = {
         'product': {
             'all': False,
@@ -584,5 +582,384 @@ def test_audit_tool_bad_dates(
 
     client = client_factory([])
     result = list(audit_tool.generate(client, parameters, progress))
+
+    assert len(result) == 1
+
+
+def test_missing_subscriptions_no_filters(monkeypatch, progress, client_factory, response_factory, assets_collection,
+                                          customers_collection, ff_request_direct, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': False,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        },
+        'status': {
+            'all': False,
+            'choices': []
+        },
+        'domains': '',
+        'ms_customer_ids': ''
+    }
+
+    monkeypatch.setattr(
+        MMSClientAPI, 'get_ms_customer_subscriptions', mock_get_customer_susbcriptions_from_service)
+
+    customer_id = customers_collection[0]['id']
+    products = ','.join(missing_subscriptions.NCE_PRODUCTS)
+
+    responses = [
+        response_factory(
+            query='and(eq(status,installed),'
+                  'in(environment.extension.id,(SRVC-7117-4970,SRVC-7374-6941)))',
+            value=installation_list),
+        response_factory(
+            query='and(eq(type,customer),'
+                  f'ge(events.created.at,{AFTER_DATE}),'
+                  f'le(events.created.at,{BEFORE_DATE}))',
+            value=customers_collection),
+        response_factory(
+            query=f'and(eq(asset.tiers.customer.id,{customer_id}),'
+                  'eq(status,approved),'
+                  'eq(marketplace.id,MP-123))',
+            value=ff_request_direct,
+            ordering=['-created']
+        ),
+        response_factory(
+            query='and(in(status,(active,terminated,terminating,suspended)),'
+                  f'in(product.id,({products})),'
+                  f'eq(tiers.customer.id,{customer_id}),'
+                  'eq(marketplace.id,MP-123),'
+                  'eq(connection.type,test))',
+            value=assets_collection)
+    ]
+
+    client = client_factory(responses)
+    result = list(missing_subscriptions.generate(client, parameters, progress))
+
+    assert len(result) == 2
+
+
+def test_missing_subscriptions_filter_domain(monkeypatch, progress, client_factory, response_factory, assets_collection,
+                                             customers_collection, ff_request_direct, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': False,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        },
+        'status': {
+            'all': False,
+            'choices': []
+        },
+        'domains': 'seconddomain.onmicrosoft.com',
+        'ms_customer_ids': ''
+    }
+
+    monkeypatch.setattr(
+        MMSClientAPI, 'get_ms_customer_subscriptions', mock_get_customer_susbcriptions_from_service)
+
+    customer_id = customers_collection[0]['id']
+    products = ','.join(missing_subscriptions.NCE_PRODUCTS)
+
+    responses = [
+        response_factory(
+            query='and(eq(status,installed),'
+                  'in(environment.extension.id,(SRVC-7117-4970,SRVC-7374-6941)))',
+            value=installation_list),
+        response_factory(
+            query='and(eq(type,customer),'
+                  f'ge(events.created.at,{AFTER_DATE}),'
+                  f'le(events.created.at,{BEFORE_DATE}))',
+            value=customers_collection),
+        response_factory(
+            query=f'and(eq(asset.tiers.customer.id,{customer_id}),'
+                  'eq(status,approved),'
+                  'eq(marketplace.id,MP-123))',
+            value=ff_request_direct,
+            ordering=['-created']
+        ),
+        response_factory(
+            query='and(in(status,(active,terminated,terminating,suspended)),'
+                  f'in(product.id,({products})),'
+                  f'eq(tiers.customer.id,{customer_id}),'
+                  'eq(marketplace.id,MP-123),'
+                  'eq(connection.type,test))',
+            value=assets_collection)
+    ]
+
+    client = client_factory(responses)
+    result = list(missing_subscriptions.generate(client, parameters, progress))
+
+    assert len(result) == 2
+
+
+def test_missing_subscriptions_filter_ms_id(monkeypatch, progress, client_factory, response_factory, assets_collection,
+                                            customers_collection, ff_request_direct, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': False,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        },
+        'status': {
+            'all': False,
+            'choices': []
+        },
+        'domains': '',
+        'ms_customer_ids': 'mstentant-customer-id'
+    }
+
+    monkeypatch.setattr(
+        MMSClientAPI, 'get_ms_customer_subscriptions', mock_get_customer_susbcriptions_from_service)
+
+    customer_id = customers_collection[0]['id']
+    products = ','.join(missing_subscriptions.NCE_PRODUCTS)
+
+    responses = [
+        response_factory(
+            query='and(eq(status,installed),'
+                  'in(environment.extension.id,(SRVC-7117-4970,SRVC-7374-6941)))',
+            value=installation_list),
+        response_factory(
+            query='and(eq(type,customer),'
+                  f'ge(events.created.at,{AFTER_DATE}),'
+                  f'le(events.created.at,{BEFORE_DATE}))',
+            value=customers_collection),
+        response_factory(
+            query=f'and(eq(asset.tiers.customer.id,{customer_id}),'
+                  'eq(status,approved),'
+                  'eq(marketplace.id,MP-123))',
+            value=ff_request_direct,
+            ordering=['-created']
+        ),
+        response_factory(
+            query='and(in(status,(active,terminated,terminating,suspended)),'
+                  f'in(product.id,({products})),'
+                  f'eq(tiers.customer.id,{customer_id}),'
+                  'eq(marketplace.id,MP-123),'
+                  'eq(connection.type,test))',
+            value=assets_collection)
+    ]
+
+    client = client_factory(responses)
+    result = list(missing_subscriptions.generate(client, parameters, progress))
+
+    assert len(result) == 2
+
+
+def test_missing_subscriptions_filter_all(monkeypatch, progress, client_factory, response_factory, assets_collection,
+                                          customers_collection, ff_request_direct, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': False,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        },
+        'status': {
+            'all': False,
+            'choices': []
+        },
+        'domains': 'seconddomain.onmicrosoft.com',
+        'ms_customer_ids': 'mstentant-customer-id'
+    }
+
+    monkeypatch.setattr(
+        MMSClientAPI, 'get_ms_customer_subscriptions', mock_get_customer_susbcriptions_from_service)
+
+    customer_id = customers_collection[0]['id']
+    products = ','.join(missing_subscriptions.NCE_PRODUCTS)
+
+    responses = [
+        response_factory(
+            query='and(eq(status,installed),'
+                  'in(environment.extension.id,(SRVC-7117-4970,SRVC-7374-6941)))',
+            value=installation_list),
+        response_factory(
+            query='and(eq(type,customer),'
+                  f'ge(events.created.at,{AFTER_DATE}),'
+                  f'le(events.created.at,{BEFORE_DATE}))',
+            value=customers_collection),
+        response_factory(
+            query=f'and(eq(asset.tiers.customer.id,{customer_id}),'
+                  'eq(status,approved),'
+                  'eq(marketplace.id,MP-123))',
+            value=ff_request_direct,
+            ordering=['-created']
+        ),
+        response_factory(
+            query='and(in(status,(active,terminated,terminating,suspended)),'
+                  f'in(product.id,({products})),'
+                  f'eq(tiers.customer.id,{customer_id}),'
+                  'eq(marketplace.id,MP-123),'
+                  'eq(connection.type,test))',
+            value=assets_collection)
+    ]
+
+    client = client_factory(responses)
+    result = list(missing_subscriptions.generate(client, parameters, progress))
+
+    assert len(result) == 2
+
+
+def test_missing_subscriptions_all_statuses(monkeypatch, progress, client_factory, response_factory, assets_collection,
+                                            customers_collection, ff_request_direct, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': False,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        },
+        'status': {
+            'all': True,
+            'choices': ['active', 'suspended']
+        },
+        'domains': 'seconddomain.onmicrosoft.com',
+        'ms_customer_ids': 'mstentant-customer-id'
+    }
+
+    monkeypatch.setattr(
+        MMSClientAPI, 'get_ms_customer_subscriptions', mock_get_customer_susbcriptions_from_service)
+
+    customer_id = customers_collection[0]['id']
+    products = ','.join(missing_subscriptions.NCE_PRODUCTS)
+
+    responses = [
+        response_factory(
+            query='and(eq(status,installed),'
+                  'in(environment.extension.id,(SRVC-7117-4970,SRVC-7374-6941)))',
+            value=installation_list),
+        response_factory(
+            query='and(eq(type,customer),'
+                  f'ge(events.created.at,{AFTER_DATE}),'
+                  f'le(events.created.at,{BEFORE_DATE}))',
+            value=customers_collection),
+        response_factory(
+            query=f'and(eq(asset.tiers.customer.id,{customer_id}),'
+                  'eq(status,approved),'
+                  'eq(marketplace.id,MP-123))',
+            value=ff_request_direct,
+            ordering=['-created']
+        ),
+        response_factory(
+            query='and(in(status,(active,terminated,terminating,suspended)),'
+                  f'in(product.id,({products})),'
+                  f'eq(tiers.customer.id,{customer_id}),'
+                  'eq(marketplace.id,MP-123),'
+                  'eq(connection.type,test))',
+            value=assets_collection)
+    ]
+
+    client = client_factory(responses)
+    result = list(missing_subscriptions.generate(client, parameters, progress))
+
+    assert len(result) == 3
+
+
+def test_missing_subscriptions_only_suspended(monkeypatch, progress, client_factory, response_factory,
+                                              assets_collection,
+                                              customers_collection, ff_request_direct, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': False,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        },
+        'status': {
+            'all': False,
+            'choices': ['suspended']
+        },
+        'domains': 'seconddomain.onmicrosoft.com',
+        'ms_customer_ids': 'mstentant-customer-id'
+    }
+
+    monkeypatch.setattr(
+        MMSClientAPI, 'get_ms_customer_subscriptions', mock_get_customer_susbcriptions_from_service)
+
+    customer_id = customers_collection[0]['id']
+    products = ','.join(missing_subscriptions.NCE_PRODUCTS)
+
+    responses = [
+        response_factory(
+            query='and(eq(status,installed),'
+                  'in(environment.extension.id,(SRVC-7117-4970,SRVC-7374-6941)))',
+            value=installation_list),
+        response_factory(
+            query='and(eq(type,customer),'
+                  f'ge(events.created.at,{AFTER_DATE}),'
+                  f'le(events.created.at,{BEFORE_DATE}))',
+            value=customers_collection),
+        response_factory(
+            query=f'and(eq(asset.tiers.customer.id,{customer_id}),'
+                  'eq(status,approved),'
+                  'eq(marketplace.id,MP-123))',
+            value=ff_request_direct,
+            ordering=['-created']
+        ),
+        response_factory(
+            query='and(in(status,(active,terminated,terminating,suspended)),'
+                  f'in(product.id,({products})),'
+                  f'eq(tiers.customer.id,{customer_id}),'
+                  'eq(marketplace.id,MP-123),'
+                  'eq(connection.type,test))',
+            value=assets_collection)
+    ]
+
+    client = client_factory(responses)
+    result = list(missing_subscriptions.generate(client, parameters, progress))
 
     assert len(result) == 1

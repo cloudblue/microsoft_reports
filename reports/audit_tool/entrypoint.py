@@ -5,8 +5,9 @@
 
 from connect.client import R
 
-from reports.audit_tool.http import MMSClientAPI, MMSClientAPIError, SubscriptionCantBeObtained
-from reports.utils import get_value, parameter_value, convert_to_datetime
+from reports.http import MMSClientAPI, MMSClientAPIError, SubscriptionCantBeObtained, obtain_url_for_service
+from reports.utils import get_value, parameter_value
+from reports.validation import validate_date, check_if_only_one_marketplace_is_available
 
 HEADERS = [
     'Asset ID',
@@ -34,7 +35,6 @@ HEADERS = [
 
 # This report is only valid for the NCE Commercial product in development and production environments.
 MICROSOFT_SAAS = 'MICROSOFT_SAAS'
-SERVICE_IDS = ['SRVC-7117-4970', 'SRVC-7374-6941']
 VENDORS_IDS = ['VA-888-104', 'VA-610-138']
 active_subscriptions_not_processed = {}
 
@@ -89,7 +89,7 @@ def generate(
 
 
 def validate_parameters(parameters: dict, client):
-    validate_date(parameters)
+    validate_date(parameters, limit_in_months=2)
 
     # Validate marketplace is just one
     if parameters.get('mkp'):
@@ -112,12 +112,6 @@ def validate_parameters(parameters: dict, client):
         check_if_product_is_valid(parameters['product']['choices'][0], client)
 
 
-def check_if_only_one_marketplace_is_available(client):
-    marketplaces = client.marketplaces.all()
-    if marketplaces.count() != 1:
-        raise ValueError('Only one marketplace can be selected.')
-
-
 def check_if_product_is_valid(product_id, client):
     query = R()
     query &= R().id.eq(product_id)
@@ -125,33 +119,6 @@ def check_if_product_is_valid(product_id, client):
     products = client.products.filter(query)
     if products.count() != 1:
         raise ValueError('The product selected is not valid. Please select a valid product from Microsoft products.')
-
-
-def validate_date(parameters: dict):
-    # Validate date range
-    if not parameters.get('date').get('after') or not parameters.get('date').get('before'):
-        raise ValueError('The date range is required.')
-
-    # Validate date range is not greater than 2 months
-    date_after = convert_to_datetime(parameters.get('date').get('after').replace('Z', ''))
-    date_before = convert_to_datetime(parameters.get('date').get('before').replace('Z', ''))
-    difference_months = (date_before.year - date_after.year) * 12 + date_before.month - date_after.month
-    if difference_months > 2:
-        raise ValueError('The date range cannot be greater than 2 months.')
-
-
-def obtain_url_for_service(client):
-    query = R()
-    query &= R().status.eq('installed')
-    query &= R().environment.extension.id.oneof(SERVICE_IDS)
-    installation = client.ns('devops').collection('installations').filter(query).first()
-    if not installation:
-        raise StopProcessingReport('The service for the MMS was not found.')
-
-    hostname = get_value(installation, ['environment', 'hostname'])
-    domain = get_value(installation, ['environment', 'domain'])
-    url = 'https://' + hostname + '.' + domain
-    return url
 
 
 def _get_request_list(client, parameters):
