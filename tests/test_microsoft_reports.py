@@ -268,7 +268,7 @@ def test_nce_migrations_json_rendered(progress, client_factory, response_factory
     assert len(result) == 1
 
 
-def test_audit_tool(monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
+def test_audit_tool_none_status(monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
     def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
         return customer_subscriptions_from_service()
 
@@ -304,7 +304,169 @@ def test_audit_tool(monkeypatch, progress, client_factory, response_factory, ass
             value=installation_list),
         response_factory(count=3),
         response_factory(
-            query='and(eq(status,active),'
+            query='and(in(status,(active,suspended,terminated,terminating)),'
+                  'in(product.id,(PRD-183-233-565)),'
+                  'eq(connection.type,test),'
+                  'eq(marketplace.id,MP-123),'
+                  'gt(created,2021-12-01T00:00:00),'
+                  'lt(created,2021-12-20T00:00:00))',
+            value=assets_collection)
+    ]
+
+    client = client_factory(responses)
+    result = list(audit_tool.generate(client, parameters, progress))
+
+    assert len(result) == 3
+
+def test_audit_tool_all_status(monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'product': {
+            'all': False,
+            'choices': ["PRD-183-233-565"],
+        },
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': False,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        },
+        'status': {
+            'all': True,
+            'choices': []
+        }
+    }
+
+    monkeypatch.setattr(
+        MMSClientAPI, 'get_ms_customer_subscriptions', mock_get_customer_susbcriptions_from_service)
+
+    responses = [
+        response_factory(
+            query='and(eq(id,PRD-183-233-565),in(owner.id,(VA-888-104,VA-610-138)))',
+            value=[{'id': 'PRD-183-233-565'}]
+        ),
+        response_factory(
+            query='and(eq(status,installed),'
+                  'in(environment.extension.id,(SRVC-7117-4970,SRVC-7374-6941)))',
+            value=installation_list),
+        response_factory(count=3),
+        response_factory(
+            query='and(in(status,(active,suspended,terminated,terminating)),'
+                  'in(product.id,(PRD-183-233-565)),'
+                  'eq(connection.type,test),'
+                  'eq(marketplace.id,MP-123),'
+                  'gt(created,2021-12-01T00:00:00),'
+                  'lt(created,2021-12-20T00:00:00))',
+            value=assets_collection)
+    ]
+
+    client = client_factory(responses)
+    result = list(audit_tool.generate(client, parameters, progress))
+
+    assert len(result) == 3
+
+def test_audit_tool_active_status(monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'product': {
+            'all': False,
+            'choices': ["PRD-183-233-565"],
+        },
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': False,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        },
+        'status': {
+            'all': False,
+            'choices': ['active']
+        }
+    }
+
+    monkeypatch.setattr(
+        MMSClientAPI, 'get_ms_customer_subscriptions', mock_get_customer_susbcriptions_from_service)
+
+    responses = [
+        response_factory(
+            query='and(eq(id,PRD-183-233-565),in(owner.id,(VA-888-104,VA-610-138)))',
+            value=[{'id': 'PRD-183-233-565'}]
+        ),
+        response_factory(
+            query='and(eq(status,installed),'
+                  'in(environment.extension.id,(SRVC-7117-4970,SRVC-7374-6941)))',
+            value=installation_list),
+        response_factory(count=3),
+        response_factory(
+            query='and(in(status,(active)),'
+                  'in(product.id,(PRD-183-233-565)),'
+                  'eq(connection.type,test),'
+                  'eq(marketplace.id,MP-123),'
+                  'gt(created,2021-12-01T00:00:00),'
+                  'lt(created,2021-12-20T00:00:00))',
+            value=assets_collection)
+    ]
+
+    client = client_factory(responses)
+    result = list(audit_tool.generate(client, parameters, progress))
+
+    assert len(result) == 3
+
+def test_audit_tool_terminated_and_deleted(monkeypatch, progress, client_factory, response_factory, assets_collection, installation_list):
+    def mock_get_customer_susbcriptions_from_service(*args, **kwargs):
+        return customer_subscriptions_from_service()
+
+    parameters = {
+        'product': {
+            'all': False,
+            'choices': ["PRD-183-233-565"],
+        },
+        'date': {
+            'after': AFTER_DATE,
+            'before': BEFORE_DATE,
+        },
+        'connection_type': {
+            'all': False,
+            'choices': ["test"]},
+        'mkp': {
+            'all': False,
+            'choices': ["MP-123"],
+        },
+        'status': {
+            'all': False,
+            'choices': ['terminated', 'deleted']
+        }
+    }
+
+    monkeypatch.setattr(
+        MMSClientAPI, 'get_ms_customer_subscriptions', mock_get_customer_susbcriptions_from_service)
+
+    responses = [
+        response_factory(
+            query='and(eq(id,PRD-183-233-565),in(owner.id,(VA-888-104,VA-610-138)))',
+            value=[{'id': 'PRD-183-233-565'}]
+        ),
+        response_factory(
+            query='and(eq(status,installed),'
+                  'in(environment.extension.id,(SRVC-7117-4970,SRVC-7374-6941)))',
+            value=installation_list),
+        response_factory(count=3),
+        response_factory(
+            query='and(in(status,(terminated,deleted)),'
                   'in(product.id,(PRD-183-233-565)),'
                   'eq(connection.type,test),'
                   'eq(marketplace.id,MP-123),'

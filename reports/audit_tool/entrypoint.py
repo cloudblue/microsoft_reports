@@ -156,7 +156,12 @@ def obtain_url_for_service(client):
 
 def _get_request_list(client, parameters):
     query = R()
-    query &= R().status.eq('active')
+
+    if parameters.get('status') and parameters['status']['choices']:
+        query &= R().status.oneof(parameters['status']['choices'])
+    else:
+        all_statuses = ['active', 'suspended', 'terminated', 'terminating']
+        query &= R().status.oneof(all_statuses)
 
     if parameters.get('product') and parameters['product']['all'] is False:
         query &= R().product.id.oneof(parameters['product']['choices'])
