@@ -215,7 +215,11 @@ def _extract_product_and_sku_id(subscription):
 
     offer_parts = offer_id.split(':')
     prod_id = offer_parts[0]
-    sku_id = offer_parts[1]
+    if len(offer_parts) > 1:
+        sku_id = offer_parts[1]
+    else:
+        sku_id = '/'
+
     return prod_id, sku_id
 
 
