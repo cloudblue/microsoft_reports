@@ -101,15 +101,30 @@ def pipelineStages = [
             mv dependency-check/ /opt/dependency-check
             rm dependency-check.zip
         fi
-
-        echo "Downloading and Installing sonar-scanner..."
-        SONAR_VERSION=\$(curl --silent "https://api.github.com/repos/SonarSource/sonar-scanner-cli/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\\1/')
-        echo "Sonar version \$SONAR_VERSION"
-        wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-\$SONAR_VERSION-linux-x64.zip
-        unzip -q sonar-scanner-cli-\$SONAR_VERSION-linux-x64.zip
-        mv sonar-scanner-\$SONAR_VERSION-linux-x64/ /opt/sonar
-        rm sonar-scanner-cli-\$SONAR_VERSION-linux-x64.zip
         """
+
+        script {
+            def baseUrl = 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-'
+            def versions = sh(script: """curl --silent https://api.github.com/repos/SonarSource/sonar-scanner-cli/releases | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\\1/' """, returnStdout: true).trim().split('\n')
+            
+            for (version in versions) {
+                try {
+                    def downloadUrl = "${baseUrl}${version}-linux-x64.zip"
+                    sh "curl -L -O ${downloadUrl}"
+                    sh "unzip -q -o sonar-scanner-cli-${version}-linux-x64.zip && mv sonar-scanner-${version}-linux-x64/ /opt/sonar && rm -f sonar-scanner-cli-${version}-linux-x64.zip"
+                    env.SONAR_VERSION = version
+                    break
+                } catch (Exception e) {
+                    echo "Fail to download Sonar ${version}."
+                }
+            }
+
+            if (env.SONAR_VERSION == "") {
+                error "Not able to install Sonar client."
+            } else {
+                echo "Sonar version ${env.SONAR_VERSION}"
+            }
+        }
     }],
     [name: 'Python Dependency Packager', steps: {
         withCredentials([usernamePassword(credentialsId: 'xvantage-partners-integrations', passwordVariable: 'GITHUB_PASS', usernameVariable: 'GITHUB_USER')]) {
