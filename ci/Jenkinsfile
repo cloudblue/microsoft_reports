@@ -176,7 +176,8 @@ def pipelineStages = [
                     -Dsonar.tests=${env.SONAR_FILES_TEST} \
                     \$EXCLUSIONS \
                     -Dsonar.python.coverage.reportPaths=coverage.xml \
-                    -Dsonar.python.pylint=venv/bin/pylint
+                    -Dsonar.python.pylint=venv/bin/pylint \
+                    -Dsonar.qualitygate.wait=true
             """
         }],
         [name: 'Scan Checkmarx', steps: {
