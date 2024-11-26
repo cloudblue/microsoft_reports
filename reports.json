@@ -339,7 +339,7 @@
     },
     {
       "name": "Microsoft Subscriptions report for Cooper",
-      "readme_file": "reports/ms_cooper/readme.md",
+      "readme_file": "reports/ms_cooper/README.md",
       "report_spec": "2",
       "renderers": [
         {
